@@ -22,7 +22,7 @@
         let password;
         if(msg.length>0){
             do{
-         window.alert("Password must be between 8 and 10 characters and cannot be null");
+         window.alert("Password must be between 8 and 10 characters and cannot be null. It must contain at least one uppercase letter, one lowercase letter and one number.");  
          password = window.prompt("Enter your password:");
          console.log(password.length);
         }while(password.length<8 || password===null || password.length>10 || /[0-9]/.test(password)===false || /[A-Z]/.test(password)===false || /[a-z]/.test(password)===false);
