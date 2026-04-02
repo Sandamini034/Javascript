@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Msg Encrption and Decription</title>
+</head>
+
+<body style="background-color: black;color:white;text-align: center;">
+    <header style="background-color:palegoldenrod;padding:15px">
+        <h1 style="color:black">Encryption and Decryption</h1> 
+    </header>
+    <hr>
+    <main style="border-style:double;padding:15px">
+    <label id="label">Encrpted Msg</label><br>
+   <button id="decriptionBtn">Decrypt</button>
+
+    <script>
+        let msg =window.prompt("Enter your msg:");
+        console.log(msg);
+        let password;
+        if(msg.length>0){
+            do{
+         window.alert("Password must be between 8 and 10 characters and cannot be null");
+         password = window.prompt("Enter your password:");
+         console.log(password.length);
+        }while(password.length<8 || password===null || password.length>10 || /[0-9]/.test(password)===false || /[A-Z]/.test(password)===false || /[a-z]/.test(password)===false);
+        }else{
+         window.alert("Msg cannot be null, try again");
+         msg = window.prompt("Enter your msg:");
+         console.log(msg);
+         if(msg.length>0){
+            do{
+         window.alert("Password must be between 8 and 10 characters and cannot be null");
+         password = window.prompt("Enter your password:");
+         console.log(password.length);
+            }while(password.length<8 || password===null || password.length>10);
+        }}
+        
+        let pArray = [];
+        for(let i=0;i<password.length;i++){
+            pArray.push(password.charCodeAt(i));
+        }  
+        console.log(pArray);
+
+        let mArray=[];
+        for(let i=0;i<msg.length;i++){
+            mArray.push(msg.charCodeAt(i));
+        }
+        console.log(mArray);
+
+        const encryptedMsg =[];
+
+        for (let mElement in mArray){
+            if(mElement<pArray.length){
+                encryptedMsg.push(mArray[mElement]+pArray[mElement]);   
+            }else{
+                encryptedMsg.push(mArray[mElement] +
+                pArray[mElement % pArray.length]);
+            }
+        }
+ 
+        let encriptmsg="";
+        for(let i=0;i<encryptedMsg.length;i++){
+            encriptmsg+=String.fromCharCode(encryptedMsg[i]);
+        }
+        document.getElementById("label").innerHTML=encriptmsg; 
+        
+        let pwd="";
+        document.getElementById("decriptionBtn").onclick = function(){
+            pwd=window.prompt("Enter your password again :");
+            if(document.getElementById("decriptionBtn").innerHTML === "Encrypt"){
+                if(pwd===password){
+                    document.getElementById("label").innerHTML=encriptmsg; 
+                document.getElementById("decriptionBtn").innerHTML ="Decrypt";   
+                }else{
+                    window.alert("Wrong password, try again");
+                }
+            }
+            else{
+                if(pwd === password){
+                let decryptedMsg = "";
+                for(let element in encryptedMsg){
+                    if(element<pArray.length){
+                        decryptedMsg+=String.fromCharCode(encryptedMsg[element]-pArray[element]);
+                    }else {
+                        decryptedMsg+=String.fromCharCode(encryptedMsg[element]-
+                        pArray[element % pArray.length]);
+                    }
+                }
+                document.getElementById("label").innerHTML = decryptedMsg;
+                document.getElementById("decriptionBtn").innerHTML ="Encrypt";
+   
+            }else{
+                window.alert("Wrong password, try again");
+            }
+            }
+           
+        }
+    </script>   
+</main>
+</body>
+</html>
