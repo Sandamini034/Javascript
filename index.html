@@ -4,12 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encryption and Decryption</title>
+    <style>
+        body{
+            background:linear-gradient(lightblue,purple);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        button{
+            border-radius:5px;
+            padding:5px;
+        }
+
+        textarea,input[type="password"],button{
+            display:block;
+            margin:0 auto 10px auto;
+            padding:8px;
+            resize:none;
+        }
+    </style>
 </head>
-<body style="background-color: antiquewhite;">
+<body>
     
-    <input id="inputText" style="display:block; margin:0 auto; 
-    width:40em;height: 14em; text-align:left;padding:8px;resize:none;">
-    
+    <textarea id="inputText" placeholder ="Put your source / encrypted content here..." style="text-align:left; width:40em;height: 12em;"></textarea>
     <br>
 
  <div style="text-align:center;">
@@ -22,61 +39,59 @@
 
     <br>
 
-    <input type="password" id="pwd" style="display:block;margin:0 auto;padding-left:8px"><br>
-    <button id="btn" style="display:block;margin:0 auto">Encrypt/Decrypt</button><br>
-    <input id="outputText" style="display:block; margin:0 auto; 
-    width:40em;height: 14em; text-align:left;padding:8px;resize:none;" readonly>
+    <input type="password" id="pwd"><br>
+    <button id="btn" style="display:block;margin:0 auto;">Encrypt/Decrypt</button><br>
+    <textarea id="outputText" placeholder ="Output will be here..." style="
+     width:40em;height: 12em; text-align:left;" readonly></textarea>
+    
     <script>
         const input = document.getElementById("inputText");
-        input.placeholder ="Put your source / encrypted content here...";
         
         const output = document.getElementById("outputText");
-        output.placeholder ="Output will be here...";
 
-        document.getElementById("btn").onclick = function(){
+        const password = document.getElementById("pwd");
+
+        document.getElementById("btn").addEventListener("click", function(){
+
             let inputText =input.value;
+
+            if(inputText.trim().length===0){
+            window.alert("Please enter some text to encrypt/decrypt");       
+          }
             const selection = document.querySelector('input[name="selection"]:checked').value;
             console.log(inputText);
             console.log(selection);
             let pArray = [];
-            for(let element in document.getElementById("pwd").value){
-                pArray.push(document.getElementById("pwd").value.charCodeAt(element));
+            for(let element in password){
+                pArray.push(password.value.charCodeAt(element));
             }
 
-            if(pArray.length<8 || pArray.length>10 || pArray.length===0 || /[0-9]/.test(document.getElementById("pwd").value)===false || /[A-Z]/.test(document.getElementById("pwd").value)===false || /[a-z]/.test(document.getElementById("pwd").value)===false){
-                window.alert("Password must be greater than 8 characters,cannot be null and must contain at least one uppercase letter, one lowercase letter and one number.");
+            if(pArray.length<8 || !/[0-9]/.test(password.value) || !/[A-Z]/.test(password.value)|| !/[a-z]/.test(password.value)){
+                window.alert("Password must be greater than 8 characters,cannot be null and "+
+                "must contain at least one uppercase letter,one lowercase letter and one number.");
                 return;
             }else{
             
-            if(selection ==="Encrypt" && inputText.length>0){
-
-                let mArray =[];
-
-            for(let element in inputText){
-                mArray.push(inputText.charCodeAt(element));
-            }
-            
-                for(let element in mArray){
-                    mArray[element] = mArray[element] +pArray[element%pArray.length];
-                }
-                output.value = mArray.join(",");
-            }else if(selection ==="Decrypt" && inputText.length>0){
-
-                let dArray = inputText.split(",").map(Number);
-
-           
-                for(let element in dArray){
-                    dArray[element] = dArray[element] -pArray[element%pArray.length];
-                }
-                console.log(dArray);
-                output.value = String.fromCharCode(...dArray);
-            }else if(inputText.length===0){
-                window.alert("Please enter some text to encrypt/decrypt");
-            }else{
+            if(selection ===""){
                 window.alert("Please select Encrypt or Decrypt");
+                return;
             }
+          let array = selection==="Encrypt"? 
+          inputText.split("").map(char=>char.charCodeAt(0)):
+          inputText.split(",").map(Number);
+
+          for(let i=0;i<array.length;i++){
+            array[i] =selection==="Encrypt"?
+            array[i]+pArray[i%pArray.length]:
+            array[i]-pArray[i%pArray.length];
+          }
+
+          output.value = selection==="Encrypt"?
+          array.join(","):
+          String.fromCharCode(...array);
+          
         }
-        }
+        })
         
     </script>
 </body>
