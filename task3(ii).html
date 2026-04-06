@@ -25,16 +25,14 @@
             border: 1px solid #000;
             margin-top: 10px;
             border-radius: 15px;
-            position: absolute;
-
         }
 
         .slider-value {
             font-weight: bold;
         }
 
-        #color2,
         #color1,
+        #color2,
         #color3 {
             width: 180px;
         }
@@ -44,7 +42,6 @@
             background-repeat: no-repeat;
             background-size: cover;
             background-attachment: fixed;
-
         }
     </style>
 </head>
@@ -55,26 +52,26 @@
     </header>
     <main>
         <div class="input">
-            <label for="color1">Color1</label>
+            <label for="color1">Color 1</label>
             <input type="color" id="color1" value="#ff0000"><br><br>
 
-            <label for="color2">Color2</label>
+            <label for="color2">Color 2</label>
             <input type="color" id="color2" value="#00ff00"><br><br>
 
-            <label for="color3">Color3</label>
+            <label for="color3">Color 3</label>
             <input type="color" id="color3" value="#0000ff"><br><br>
 
-            <label for="slider1">Color1 (%)</label>
-            <input type="range" id="slider1" min="0" max="100" value="50">
-            <span id="value1" class="slider-value">50%</span><br><br>
+            <label for="slider1">Color 1</label>
+            <input type="range" id="slider1" min="0" max="100" value="34">
+            <span id="value1" class="slider-value">34%</span><br><br>
 
-            <label for="slider2">Color2 (%)</label>
-            <input type="range" id="slider2" min="0" max="0" value="0">
-            <span id="value2" class="slider-value">25%</span><br><br>
+            <label for="slider2">Color 2</label>
+            <input type="range" id="slider2" min="0" max="66" value="33">
+            <span id="value2" class="slider-value">33%</span><br><br>
 
-            <label for="slider3">Color3 (%)</label>
-            <input type="range" id="slider3" min="0" max="0" value="0">
-            <span id="value3" class="slider-value">25%</span><br><br>
+            <label>Color 3 (auto):</label>
+            <span id="value3" class="slider-value">33%</span><br><br>
+
             <div id="output"></div>
         </div>
     </main>
@@ -86,55 +83,41 @@
         ];
 
         const outputElement = document.querySelector('#output');
-
         const color1 = document.querySelector('#color1');
         const color2 = document.querySelector('#color2');
         const color3 = document.querySelector('#color3');
-
         const slider1 = document.querySelector('#slider1');
         const slider2 = document.querySelector('#slider2');
-        const slider3 = document.querySelector('#slider3');
-
         const value1 = document.querySelector('#value1');
         const value2 = document.querySelector('#value2');
         const value3 = document.querySelector('#value3');
 
-        function updateSliderMax() {
-            const remAfter1 = 100 - parseInt(slider1.value);
-            slider2.max = remAfter1;
-
-            if (parseInt(slider2.value) > remAfter1) slider2.value = remAfter1;
-
-            const remAfter2 = remAfter1 - parseInt(slider2.value);
-            slider3.max = remAfter2;
-            if (parseInt(slider3.value) > remAfter2) slider3.value = remAfter2;
-        }
-
-        function updateSliderValues() {
-            value1.textContent = slider1.value + '%';
-            value2.textContent = slider2.value + '%';
-            value3.textContent = slider3.value + '%';
-        }
-
-        function blendChannel(a, b, c, r1, r2, r3) {
-            return Math.round(a * r1 + b * r2 + c * r3);
-        }
-
         function updateColor() {
-            updateSliderMax();
-            updateSliderValues();
+            const w1 = parseInt(slider1.value);
+
+            slider2.max = 100 - w1;
+            if (parseInt(slider2.value) > slider2.max) {
+                slider2.value = slider2.max;
+            }
+
+            const w2 = parseInt(slider2.value);
+            const w3 = 100 - w1 - w2;
+
+            value1.textContent = w1 + '%';
+            value2.textContent = w2 + '%';
+            value3.textContent = w3 + '%';
 
             const rgb1 = toRGB(color1.value);
             const rgb2 = toRGB(color2.value);
             const rgb3 = toRGB(color3.value);
 
-            const r1 = slider1.value / 100;
-            const r2 = slider2.value / 100;
-            const r3 = slider3.value / 100;
+            const r1 = w1 / 100;
+            const r2 = w2 / 100;
+            const r3 = w3 / 100;
 
-            const outR = blendChannel(rgb1[0], rgb2[0], rgb3[0], r1, r2, r3);
-            const outG = blendChannel(rgb1[1], rgb2[1], rgb3[1], r1, r2, r3);
-            const outB = blendChannel(rgb1[2], rgb2[2], rgb3[2], r1, r2, r3);
+            const outR = Math.round(rgb1[0] * r1 + rgb2[0] * r2 + rgb3[0] * r3);
+            const outG = Math.round(rgb1[1] * r1 + rgb2[1] * r2 + rgb3[1] * r3);
+            const outB = Math.round(rgb1[2] * r1 + rgb2[2] * r2 + rgb3[2] * r3);
 
             outputElement.style.background = `rgb(${outR}, ${outG}, ${outB})`;
         }
@@ -144,7 +127,6 @@
         color3.addEventListener('input', updateColor);
         slider1.addEventListener('input', updateColor);
         slider2.addEventListener('input', updateColor);
-        slider3.addEventListener('input', updateColor);
 
         updateColor();
     </script>
