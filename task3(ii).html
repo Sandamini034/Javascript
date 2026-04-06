@@ -1,77 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Color Blender</title>
     <style>
-        header{
-            text-align:center;
-            color:black;
-            padding:15px;
+        header {
+            text-align: center;
+            color: black;
+            padding: 15px;
         }
+
         .input {
             position: absolute;
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
         }
-        #output{
-            height:50px;
-            width:250px;
-            border:1px solid #000;
-            margin-top:10px;
+
+        #output {
+            height: 50px;
+            width: 250px;
+            border: 1px solid #000;
+            margin-top: 10px;
             border-radius: 15px;
-            position:absolute;
+            position: absolute;
 
         }
+
         .slider-value {
             font-weight: bold;
         }
-       #color2,#color1,#color3{
-        width:180px;
-       }
-       body{
-        background-image: url("colors.webp");
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
 
-       }
+        #color2,
+        #color1,
+        #color3 {
+            width: 180px;
+        }
+
+        body {
+            background-image: url("colors.webp");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+
+        }
     </style>
 </head>
+
 <body>
-    <header><h1>Color Blender</h1></header>
+    <header>
+        <h1>Color Blender</h1>
+    </header>
     <main>
         <div class="input">
-          <label for="color1">Color1</label>
-          <input type="color" id="color1" value="#ff0000"><br><br>
+            <label for="color1">Color1</label>
+            <input type="color" id="color1" value="#ff0000"><br><br>
 
-          <label for="color2">Color2</label>
-          <input type="color" id="color2" value="#00ff00"><br><br>
+            <label for="color2">Color2</label>
+            <input type="color" id="color2" value="#00ff00"><br><br>
 
-          <label for="color3">Color3</label>
-          <input type="color" id="color3" value="#0000ff"><br><br>
+            <label for="color3">Color3</label>
+            <input type="color" id="color3" value="#0000ff"><br><br>
 
-          <label for="slider1">Color1 (%)</label>
-          <input type="range" id="slider1" min="0" max="100" value="50">
-          <span id="value1" class="slider-value">50%</span><br><br>
+            <label for="slider1">Color1 (%)</label>
+            <input type="range" id="slider1" min="0" max="100" value="50">
+            <span id="value1" class="slider-value">50%</span><br><br>
 
-          <label for="slider2">Color2 (%)</label>
-          <input type="range" id="slider2" min="0" max="0" value="0">
-          <span id="value2" class="slider-value">25%</span><br><br>
+            <label for="slider2">Color2 (%)</label>
+            <input type="range" id="slider2" min="0" max="0" value="0">
+            <span id="value2" class="slider-value">25%</span><br><br>
 
-          <label for="slider3">Color3 (%)</label>
-          <input type="range" id="slider3" min="0" max="0" value="0">
-          <span id="value3" class="slider-value">25%</span><br><br>
-          <div id="output"></div>
+            <label for="slider3">Color3 (%)</label>
+            <input type="range" id="slider3" min="0" max="0" value="0">
+            <span id="value3" class="slider-value">25%</span><br><br>
+            <div id="output"></div>
         </div>
     </main>
     <script>
         const toRGB = hex => [
-            parseInt(hex.slice(1,3),16),
-            parseInt(hex.slice(3,5),16),
-            parseInt(hex.slice(5,7),16)
+            parseInt(hex.slice(1, 3), 16),
+            parseInt(hex.slice(3, 5), 16),
+            parseInt(hex.slice(5, 7), 16)
         ];
 
         const outputElement = document.querySelector('#output');
@@ -92,11 +103,11 @@
             const remAfter1 = 100 - parseInt(slider1.value);
             slider2.max = remAfter1;
 
-            if(parseInt(slider2.value) > remAfter1) slider2.value = remAfter1;
+            if (parseInt(slider2.value) > remAfter1) slider2.value = remAfter1;
 
             const remAfter2 = remAfter1 - parseInt(slider2.value);
             slider3.max = remAfter2;
-            if(parseInt(slider3.value) > remAfter2) slider3.value = remAfter2;
+            if (parseInt(slider3.value) > remAfter2) slider3.value = remAfter2;
         }
 
         function updateSliderValues() {
@@ -105,8 +116,8 @@
             value3.textContent = slider3.value + '%';
         }
 
-        function blendChannel(a,b,c, r1,r2,r3) {
-            return Math.round(a*r1 + b*r2 + c*r3);
+        function blendChannel(a, b, c, r1, r2, r3) {
+            return Math.round(a * r1 + b * r2 + c * r3);
         }
 
         function updateColor() {
@@ -117,13 +128,13 @@
             const rgb2 = toRGB(color2.value);
             const rgb3 = toRGB(color3.value);
 
-            const r1 = slider1.value/100;
-            const r2 = slider2.value/100;
-            const r3 = slider3.value/100;
+            const r1 = slider1.value / 100;
+            const r2 = slider2.value / 100;
+            const r3 = slider3.value / 100;
 
-            const outR = blendChannel(rgb1[0], rgb2[0], rgb3[0], r1,r2,r3);
-            const outG = blendChannel(rgb1[1], rgb2[1], rgb3[1], r1,r2,r3);
-            const outB = blendChannel(rgb1[2], rgb2[2], rgb3[2], r1,r2,r3);
+            const outR = blendChannel(rgb1[0], rgb2[0], rgb3[0], r1, r2, r3);
+            const outG = blendChannel(rgb1[1], rgb2[1], rgb3[1], r1, r2, r3);
+            const outB = blendChannel(rgb1[2], rgb2[2], rgb3[2], r1, r2, r3);
 
             outputElement.style.background = `rgb(${outR}, ${outG}, ${outB})`;
         }
@@ -138,4 +149,5 @@
         updateColor();
     </script>
 </body>
+
 </html>
