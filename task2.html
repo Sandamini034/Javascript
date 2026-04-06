@@ -1,43 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encryption and Download</title>
     <style>
-        body{
-            background:linear-gradient(lightblue,purple);
+        body {
+            background: linear-gradient(lightblue, purple);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
-        button{
-            border-radius:5px;
-            padding:5px;
+        button {
+            border-radius: 5px;
+            padding: 5px;
         }
 
-        textarea,input[type="password"],button,header{
-            display:block;
-            margin:0 auto 10px auto;
-            padding:8px;
-            resize:none;
-            border-radius:10px;
+        textarea,
+        input[type="password"],
+        button,
+        header {
+            display: block;
+            margin: 0 auto 10px auto;
+            padding: 8px;
+            resize: none;
+            border-radius: 10px;
         }
-        header{
-            text-align:center;
-            color:rgb(8, 8, 44);
-            border-style:solid;
-            border-radius:15px;
+
+        header {
+            text-align: center;
+            color: rgb(8, 8, 44);
+            border-style: solid;
+            border-radius: 15px;
         }
-        input[type="password"]{
-            width:20em;
-            text-align:center;
+
+        input[type="password"] {
+            width: 20em;
+            text-align: center;
         }
     </style>
 </head>
+
 <body>
-    <header><h1>Encrypto</h1></header><br>
-    <textarea id="inputText" placeholder ="Put your source / encrypted content here..." style="text-align:left; width:40em;height: 12em;"></textarea>
+    <header>
+        <h1>Encrypto</h1>
+    </header><br>
+    <textarea id="inputText" placeholder="Put your source / encrypted content here..."
+        style="text-align:left; width:40em;height: 12em;"></textarea>
     <br>
 
     <input type="password" placeholder="Enter your password" id="pwd"><br>
@@ -47,52 +57,53 @@
 
         const password = document.getElementById("pwd");
 
-        document.getElementById("btn").addEventListener("click", function(){
+        document.getElementById("btn").addEventListener("click", function () {
 
-            let inputText =input.value;
+            let inputText = input.value;
 
-            if(inputText.trim().length===0){
-            window.alert("Please enter some text to encrypt");       
-          }
-           
+            if (inputText.trim().length === 0) {
+                window.alert("Please enter some text to encrypt");
+            }
+
             console.log(inputText);
 
             let pArray = [];
-            for(let element in password){
+            for (let element in password) {
                 pArray.push(password.value.charCodeAt(element));
             }
 
-            if(pArray.length<8 || !/[0-9]/.test(password.value) || !/[A-Z]/.test(password.value)|| !/[a-z]/.test(password.value)){
-                window.alert("Password must be greater than 8 characters,cannot be null and "+
-                "must contain at least one uppercase letter,one lowercase letter and one number.");
+            if (pArray.length < 8 || !/[0-9]/.test(password.value) || !/[A-Z]/.test(password.value) || !/[a-z]/.test(password.value)) {
+                window.alert("Password must be greater than 8 characters,cannot be null and " +
+                    "must contain at least one uppercase letter,one lowercase letter and one number.");
                 return;
-            }else{
-      
-          let array = inputText.split("").map(char=>char.charCodeAt(0));
+            } else {
+
+                let array = inputText.split("").map(char => char.charCodeAt(0));
 
 
-          for(let i=0;i<array.length;i++){
-            array[i] =array[i]+pArray[i%pArray.length];
-          }
-          const encryptedText = array.join(",");
+                for (let i = 0; i < array.length; i++) {
+                    array[i] = array[i] + pArray[i % pArray.length];
+                }
+                const encryptedText = array.join(",");
 
-          const blob = new Blob([encryptedText],{type:"text/plain"});
-          const url = URL.createObjectURL(blob);
-          const anchor = document.createElement("a");
-          anchor.href =url;
-          anchor.download ="EncryptedText.txt";
-          anchor.style.display ="none";
-          document.body.appendChild(anchor);
-          anchor.click();
-          anchor.remove();
-          setTimeout(() => {
-            URL.revokeObjectURL(url);
-          }, 100);
-          window.alert("Your text has been encrypted and downloaded successfully!");
+                const blob = new Blob([encryptedText], { type: "text/plain" });
+                const url = URL.createObjectURL(blob);
+                const anchor = document.createElement("a");
+                anchor.href = url;
+                anchor.download = "EncryptedText.txt";
+                anchor.style.display = "none";
+                document.body.appendChild(anchor);
+                anchor.click();
+                anchor.remove();
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                }, 100);
+                window.alert("Your text has been encrypted and downloaded successfully!");
 
-        }
+            }
         })
-        
+
     </script>
 </body>
+
 </html>
