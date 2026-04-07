@@ -30,7 +30,6 @@
       background-repeat: no-repeat;
       background-position: center;
     }
-
   </style>
 </head>
 
@@ -48,6 +47,19 @@
         if (files.length === 0) { return }
         console.log(files);
         window.alert("File dropped: " + files.length);
+      })
+
+      target.addEventListener("click", event => {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.multiple = true;
+        fileInput.onchange = () => {
+          const files = fileInput.files;
+          if (files.length === 0) { return }
+          console.log(files);
+          window.alert("File selected: " + files.length);
+        }
+        fileInput.click();
       })
 
       const eventTypes = ["dragenter", "dragover", "dragleave", "drop"];
