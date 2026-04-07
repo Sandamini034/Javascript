@@ -1,144 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
-    <title>Tic Tac Toe</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="images/icon-192.png">
-    <style>
-        .cell{
-            width: 100px;
-            height: 100px;
-            font-size: 24px;
-            margin: 5px auto;
-            cursor:pointer;
-        }
-        #board{
-            display:grid;
-            grid-template-columns: repeat(3, 1fr);
-            width: 320px;
-            margin: 20px auto;
-        }
-        header{
-            text-align:center;
-        }
-        #status{
-            text-align:center;
-            font-family: Arial, sans-serif;
-            margin:10px auto;
-        }
-        button{
-            border-radius:15px;
-        }
-        #btn{
-            display:block;
-            margin: 20px auto;
-            padding: 5px 20px;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>Tic Tac Toe</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+  <style>
+    .cell {
+      width: 100px;
+      height: 100px;
+      font-size: 24px;
+      margin: 5px auto;
+      cursor: pointer;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      width: 320px;
+      margin: 20px auto;
+    }
+
+    header {
+      text-align: center;
+    }
+
+    #status {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 10px auto;
+    }
+
+    button {
+      border-radius: 15px;
+    }
+
+    #btn {
+      display: block;
+      margin: 20px auto;
+      padding: 5px 20px;
+      font-size: 16px;
+    }
+  </style>
 </head>
+
 <body>
-    <header><h1>Tic Tac Toe</h1></header>
-    <main>
-        <div id="board">
-            <button class="cell" data-index="0"></button>
-            <button class="cell" data-index="1"></button>
-            <button class="cell" data-index="2"></button>
-            <button class="cell" data-index="3"></button>
-            <button class="cell" data-index="4"></button>
-            <button class="cell" data-index="5"></button>
-            <button class="cell" data-index="6"></button>
-            <button class="cell" data-index="7"></button>
-            <button class="cell" data-index="8"></button>
-        </div>
-        <div id="status">Player X's turn</div>
-        <button id="btn" onclick="resetGame()">Restart</button>
-        <script>
-            if("serviceWorker" in navigator){
-                navigator.serviceWorker.register('sw.js')
-                .then(registration =>{
-                    console.log("Service Worker registered with scope:", registration.scope);
-                })
-                .catch(error =>{
-                    console.log("Service Worker registration failed:", error);
-                });
-            }
-            const cells = document.querySelectorAll('.cell');
-            let currentPlayer = 'X';
-            let gameActive = true;
-            let gameState =new Array(9).fill("");
+  <header>
+    <h1>Tic Tac Toe</h1>
+  </header>
+  <main>
+    <div id="board">
+      <button class="cell" data-index="0"></button>
+      <button class="cell" data-index="1"></button>
+      <button class="cell" data-index="2"></button>
+      <button class="cell" data-index="3"></button>
+      <button class="cell" data-index="4"></button>
+      <button class="cell" data-index="5"></button>
+      <button class="cell" data-index="6"></button>
+      <button class="cell" data-index="7"></button>
+      <button class="cell" data-index="8"></button>
+    </div>
+    <div id="status">Player X's turn</div>
+    <button id="btn" onclick="resetGame()">Restart</button>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register('sw.js')
+          .then(registration => {
+            console.log("Service Worker registered with scope:", registration.scope);
+          })
+          .catch(error => {
+            console.log("Service Worker registration failed:", error);
+          });
+      }
+      const cells = document.querySelectorAll('.cell');
+      let currentPlayer = 'X';
+      let gameActive = true;
+      let gameState = new Array(9).fill("");
 
-            const winPatterns =[
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6]
-            ];
-        
-            cells.forEach(cell =>{
-                cell.addEventListener('click',()=>{
-                    const index = cell.dataset.index;
-                    
-                    if(gameState[index]!=="" || !gameActive){
-                        return;
-                    }
-                    gameState[index] = currentPlayer;
-                    cell.textContent = currentPlayer;
+      const winPatterns = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+      ];
 
-                    checkWin();
+      cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+          const index = cell.dataset.index;
 
-                    if(gameActive){
-                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                        document.getElementById('status').textContent = `Player ${currentPlayer}'s turn`;
-                    }
-                })
-            })
+          if (gameState[index] !== "" || !gameActive) {
+            return;
+          }
+          gameState[index] = currentPlayer;
+          cell.textContent = currentPlayer;
 
-            function checkWin(){
-                for(let pattern of winPatterns){
-                    let[a, b, c]=pattern;
+          checkWin();
 
-                    if(gameState[a] && gameState[a]===gameState[b]
-                        && gameState[a]===gameState[c]){
-                            gameActive =false;
-                            document.getElementById("status").textContent =`Player ${gameState[a]} wins!`;
-                            return;
-                        }
-                }
-                if(!gameState.includes("")){
-                    gameActive = false;
-                    document.getElementById("status").textContent ="It's a draw!";
-                }
-            }
+          if (gameActive) {
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            document.getElementById('status').textContent = `Player ${currentPlayer}'s turn`;
+          }
+        })
+      })
 
-            function resetGame(){
-                gameState =["", "", "", "", "", "", "", "", ""];
-                currentPlayer = 'X';
-                gameActive = true;
+      function checkWin() {
+        for (let pattern of winPatterns) {
+          let [a, b, c] = pattern;
 
-                document.getElementById("status").textContent ="Player X's turn";
+          if (gameState[a] && gameState[a] === gameState[b]
+            && gameState[a] === gameState[c]) {
+            gameActive = false;
+            document.getElementById("status").textContent = `Player ${gameState[a]} wins!`;
+            return;
+          }
+        }
+        if (!gameState.includes("")) {
+          gameActive = false;
+          document.getElementById("status").textContent = "It's a draw!";
+        }
+      }
 
-                cells.forEach(cell=>cell.textContent = '');
-            }
+      function resetGame() {
+        gameState = ["", "", "", "", "", "", "", "", ""];
+        currentPlayer = 'X';
+        gameActive = true;
 
-            cells.forEach(cell => {
-                cell.addEventListener('click', () => {
-                    if (cell.textContent === '') {
-                        cell.textContent = currentPlayer;
-                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-                    }
-                });
-            });
+        document.getElementById("status").textContent = "Player X's turn";
+
+        cells.forEach(cell => cell.textContent = '');
+      }
+
+      cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+          if (cell.textContent === '') {
+            cell.textContent = currentPlayer;
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+          }
+        });
+      });
 
 
-        </script>
-    </main>
+    </script>
+  </main>
 </body>
+
 </html>

@@ -1,11 +1,11 @@
 {
-    "name":"Tic Tac Toe",
-    "short_name":"Tic Tac Toe",
-    "start_url":"./task5.html",
-    "background_color":"#ffffff",
-    "theme_color":"#000000",
-    "display":"standalone",
-    "icons": [
+  "name": "Tic Tac Toe",
+  "short_name": "Tic Tac Toe",
+  "start_url": "task5.html",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "icons": [
     {
       "src": "images/icon-192.png",
       "sizes": "192x192",
