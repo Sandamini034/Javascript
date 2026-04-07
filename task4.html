@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    header {
+      text-align: center;
+      color: Green;
+      border: solid;
+      border-radius: 15px;
+      padding: 15px;
+      background-color: aliceblue;
+      font-family: 'Arial', sans-serif;
+    }
+
+    #file-drop {
+      width: auto;
+      height: 350px;
+      ;
+      border: solid;
+      border-radius: 15px;
+      margin: 40px auto;
+    }
+
+    main {
+      background-image: url("images.jpg");
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>File Drop Zone</h1>
+  </header>
+  <main>
+    <div id="file-drop"></div>
+    <script>
+      const target = document.querySelector("#file-drop");
+
+      target.addEventListener("drop", event => {
+        const files = event.dataTransfer.files;
+        if (files.length === 0) { return }
+        console.log(files);
+        window.alert("File dropped: " + files.length);
+      })
+
+      const eventTypes = ["dragenter", "dragover", "dragleave", "drop"];
+
+      for (let i = 0; i < eventTypes.length; i++) {
+        target.addEventListener(eventTypes[i], event => {
+          event.preventDefault();
+          event.stopPropagation();
+        })
+      }
+
+      window.addEventListener("paste", event => {
+        const files = event.clipboardData.files;
+        if (files.length === 0) { return }
+        console.log(files);
+        window.alert("File dropped: " + files.length);
+      })
+    </script>
+  </main>
+</body>
+
+</html>
