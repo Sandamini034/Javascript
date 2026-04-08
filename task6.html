@@ -44,6 +44,8 @@
         </div>
     </main>
     <script>
+        let fileHandle;
+
         const btn = document.getElementById('btn');
         btn.addEventListener('click',async()=>{
             const file = await getFile();
@@ -54,8 +56,9 @@
             const text = await file.text();
             document.getElementById('txtarea').value = text;
         });
+
         async function getFile(){
-            const[fileHandle] = await window.showOpenFilePicker({
+            [fileHandle] = await window.showOpenFilePicker({
                 types:[
                 {
                     description:"Text Files",
@@ -73,7 +76,6 @@
         const btn2 = document.getElementById('btn2');
         btn2.addEventListener('click',async()=>{
             const text = document.getElementById('txtarea').value;
-            const fileHandle = await window.showSaveFilePicker();
             const writableStream = await fileHandle.createWritable();
             await writableStream.write(text);
             await writableStream.close();
