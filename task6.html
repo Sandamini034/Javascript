@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Load Edit Save</title>
+    <style>
+        header{
+            color:black;
+            border:solid;
+            text-align:center;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #btn,#btn2{
+            padding:5px;
+            border-radius:7px;
+            background-color: aliceblue;
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-top:20px;
+            width:100px;
+        }
+        .container{
+            display:flex;
+            justify-content: center;
+        }
+        #txtarea{
+            width:600px;
+            height:300px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body style="background-color:#909090">
+    <header><h1>Load Edit Save</h1></header>
+    <main>
+        <div class="container">
+            <button id="btn">Open A File</button>
+        </div>
+        <div class="container">
+            <textarea id="txtarea"></textarea>
+        </div>
+        <div class="container">
+            <button id="btn2">Save</button>
+        </div>
+    </main>
+    <script>
+        const btn = document.getElementById('btn');
+        btn.addEventListener('click',async()=>{
+            const file = await getFile();
+            if(!file.name.endsWith('.txt')){
+                alert('Please select a text file');
+                return;
+            }
+            const text = await file.text();
+            document.getElementById('txtarea').value = text;
+        });
+        async function getFile(){
+            const[fileHandle] = await window.showOpenFilePicker({
+                types:[
+                {
+                    description:"Text Files",
+                    accept:{
+                        "text/plain":[".txt"]
+                    }
+                }
+            ],
+            multiple:false
+            });
+            const file = await fileHandle.getFile();
+            return file;
+        }
+
+        const btn2 = document.getElementById('btn2');
+        btn2.addEventListener('click',async()=>{
+            const text = document.getElementById('txtarea').value;
+            const fileHandle = await window.showSaveFilePicker();
+            const writableStream = await fileHandle.createWritable();
+            await writableStream.write(text);
+            await writableStream.close();
+        })
+    </script>
+</body>
+</html>
