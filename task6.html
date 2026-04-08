@@ -74,8 +74,13 @@
         }
 
         const btn2 = document.getElementById('btn2');
+        const text = document.getElementById('txtarea').value;
+        if(text === ''){
+            alert('Please open a txt file before save!');
+            return;
+
+        }
         btn2.addEventListener('click',async()=>{
-            const text = document.getElementById('txtarea').value;
             const writableStream = await fileHandle.createWritable();
             await writableStream.write(text);
             await writableStream.close();
