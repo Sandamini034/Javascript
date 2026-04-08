@@ -4,6 +4,7 @@
   "start_url": "task5.html",
   "background_color": "#ffffff",
   "theme_color": "#000000",
+  "scope": "./",
   "display": "standalone",
   "icons": [
     {
