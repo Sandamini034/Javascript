@@ -12,7 +12,7 @@
       background-color: yellow;
       border-radius: 10px;
       position: absolute;
-      top:40px;
+      top: 40px;
 
       box-shadow: 0px -5px 10px 5px rgba(255, 255, 100, 5),
         0px -20px 20px 10px rgba(255, 0, 0, 10);
@@ -22,21 +22,21 @@
 
     body {
       background-color: black;
-      margin:0;
-    
-      display:flex;
+      margin: 0;
+
+      display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
 
-    label{
+    label {
       color: white;
       font-size: 50px;
-      font-family:Georgia, 'Times New Roman', Times, serif;
+      font-family: Georgia, 'Times New Roman', Times, serif;
       padding: 10px;
-      top:50px;
-      border:solid;
+      top: 50px;
+      border: solid;
     }
   </style>
 </head>
@@ -58,33 +58,33 @@
       const step = 1.2 * speed;
 
       if (direction === "right") {
-        x+=step;
+        x += step;
         cirElement.style.left = x + "px";
         if (x >= window.innerWidth - 40) {
           direction = "down";
           y = 40;
         }
       } else if (direction === "down") {
-        y +=step;
+        y += step;
         cirElement.style.top = y + "px";
-        cirElement.style.left = (window.innerWidth - 40) + "px"; 
-        if (y >= window.innerHeight -40) { 
+        cirElement.style.left = (window.innerWidth - 40) + "px";
+        if (y >= window.innerHeight - 40) {
           direction = "left";
           x = window.innerWidth - 40;
         }
       } else if (direction === "left") {
-         x-=step;
+        x -= step;
         cirElement.style.left = x + "px";
-        cirElement.style.top = (window.innerHeight - 40) + "px"; 
-        if (x <= 40) { 
+        cirElement.style.top = (window.innerHeight - 40) + "px";
+        if (x <= 40) {
           direction = "up";
           y = window.innerHeight - 40;
         }
       } else if (direction === "up") {
-        y -=step;
+        y -= step;
         cirElement.style.top = y + "px";
         cirElement.style.left = "40px";
-        if (y <= 40) { 
+        if (y <= 40) {
           direction = "right";
           x = 40;
         }
