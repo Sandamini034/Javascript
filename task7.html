@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animation Frame</title>
+  <style>
+    #cirElement {
+      width: 30px;
+      height: 30px;
+      background-color: yellow;
+      border-radius: 10px;
+      position: absolute;
+      top:40px;
+
+      box-shadow: 0px -5px 10px 5px rgba(255, 255, 100, 5),
+        0px -20px 20px 10px rgba(255, 0, 0, 10);
+      background: linear-gradient(45deg, red, yellow);
+      border-radius: 50%;
+    }
+
+    body {
+      background-color: black;
+      margin:0;
+    
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    label{
+      color: white;
+      font-size: 50px;
+      font-family:Georgia, 'Times New Roman', Times, serif;
+      padding: 10px;
+      top:50px;
+      border:solid;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cirElement"></div>
+  <label>Fire Ball</label>
+  <script>
+    const cirElement = document.querySelector("#cirElement");
+    let previousTime = 0;
+    let direction = "right";
+    let x = 0;
+    let y = 0;
+
+    const update = currentTime => {
+      const delta = currentTime - previousTime;
+      console.log(delta);
+      const speed = delta / 8;
+      const step = 0.5 * speed;
+
+      if (direction === "right") {
+        x+=step;
+        cirElement.style.left = x + "px";
+        if (x >= window.innerWidth - 40) {
+          direction = "down";
+          y = 40;
+        }
+      } else if (direction === "down") {
+        y +=step;
+        cirElement.style.top = y + "px";
+        cirElement.style.left = (window.innerWidth - 40) + "px"; 
+        if (y >= window.innerHeight -40) { 
+          direction = "left";
+          x = window.innerWidth - 40;
+        }
+      } else if (direction === "left") {
+         x-=step;
+        cirElement.style.left = x + "px";
+        cirElement.style.top = (window.innerHeight - 40) + "px"; 
+        if (x <= 40) { 
+          direction = "up";
+          y = window.innerHeight - 40;
+        }
+      } else if (direction === "up") {
+        y -=step;
+        cirElement.style.top = y + "px";
+        cirElement.style.left = "40px";
+        if (y <= 40) { 
+          direction = "right";
+          x = 40;
+        }
+      }
+
+      previousTime = currentTime;
+      requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  </script>
+
+</body>
+
+</html>
