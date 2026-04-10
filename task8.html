@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Frame</title>
+    <style>
+        #box1{
+            width:300px;
+            height:100px;
+            background-color:#ff0000;
+            margin:200px auto;
+            border-radius:15px;
+            box-shadow:red 0px 0px 10px 5px,red 0px 0px 20px 10px,red 0px 0px 30px 15px,
+            red 0px 0px 40px 20px,red 0px 0px 50px 25px;
+            border:solid 1px #ffffff;
+        }
+        body{
+          background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="color:white;text-align:center;transform:translateY(30px);">Animation Frame</h1>
+    </header>
+    <div id="box1"></div>
+    <script>
+        const boxElement = document.querySelector('#box1');
+        const startTime = performance.now();
+        const duration = 5000;
+        const update = currentTime=>{
+            const timeSpent = currentTime - startTime;
+            const timeFactor = timeSpent / duration;
+            console.log(timeFactor);
+            boxElement.style.backgroundColor = `rgb(${Math.round(255 * 
+            (1-timeFactor))},0,${Math.round(255 * timeFactor)})`;
+            boxElement.style.boxShadow = `
+             rgb(${Math.round(255 * (1-timeFactor))},0,${Math.round(255 * timeFactor)}) 0px 0px ${10 + 20 * timeFactor}px ${5 + 5 * timeFactor}px,
+             rgb(${Math.round(255 * (1-timeFactor))},0,${Math.round(255 * timeFactor)}) 0px 0px ${20 + 30 * timeFactor}px ${10 + 10 * timeFactor}px, 
+             rgb(${Math.round(255 * (1-timeFactor))},0,${Math.round(255 * timeFactor)}) 0px 0px ${30 + 40 * timeFactor}px ${15 + 15 * timeFactor}px,
+             rgb(${Math.round(255 * (1-timeFactor))},0,${Math.round(255 * timeFactor)}) 0px 0px ${40 + 50 * timeFactor}px ${20 + 20 * timeFactor}px, 
+             rgb(${Math.round(255 * (1-timeFactor))},0,${Math.round(255 * timeFactor)}) 0px 0px ${50 + 60 * timeFactor}px ${25 + 25 * timeFactor}px`;
+            
+             if(timeFactor<1){
+                requestAnimationFrame(update);
+            }
+        }
+        requestAnimationFrame(update);
+    </script>
+</body>
+</html>
