@@ -34,7 +34,8 @@
 
       let startTime = null;
       let direction = "right";
-      const duration = 2000;
+      const duration = 2500;
+      let wasHovered = false;
 
       const easings = {
         linear: t => t,
@@ -46,17 +47,23 @@
       head.style.top = '0px';
 
       const update = currentTime => {
-        if (!startTime) startTime = currentTime;
+        const isHovered2 = container.matches(':hover');
+
+        if(isHovered2 && !wasHovered) {
+          startTime = null;
+        }
+
+        wasHovered = isHovered2;
+        if (!startTime && isHovered2) startTime = currentTime;
+
         const elapsedTime = currentTime - startTime;
         const progress = Math.min(elapsedTime / duration, 1);
-        const easedProgress = easings.easeInQuad(progress);
+        const easedProgress = easings.linear(progress);
         const easedProgressOut = easings.easeOutQuad(progress);
-        const isHovered2 = container.matches(':hover');
-        console.log(innerWidth);
 
         if (isHovered2) {
           if (direction === "right") {
-            neighbor1.style.left = `${easedProgressOut * (window.innerWidth - 100)}px`;
+            neighbor1.style.left = `${easedProgress * (window.innerWidth - 100)}px`;
             neighbor1.style.top = '0px';
           } else if (direction === "down") {
             neighbor1.style.left = window.innerWidth - 100 + 'px';
