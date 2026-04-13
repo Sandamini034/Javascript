@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Alone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="neighbor1">
+      <div id="mouth"></div>
+      <div id="eyes">
+        <div id="left"></div>
+        <div id="right"></div>
+      </div>
+    </div>
+    <div id="box1">
+      <div id="head">
+        <div id="eyes">
+          <div id="left"></div>
+          <div id="right"></div>
+          <div id="mouth"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const head = document.querySelector("#head");
+      const box1 = document.querySelector("#box1");
+      const neighbor1 = document.querySelector("#neighbor1");
+      const container = document.querySelector("#container");
+
+      let startTime = null;
+      let direction = "right";
+      const duration = 2000;
+
+      const easings = {
+        linear: t => t,
+        easeInQuad: t => t * t,
+        easeOutQuad: t => 1 - (1 - t) * (1 - t)
+      };
+
+      head.style.left = '0px';
+      head.style.top = '0px';
+
+      const update = currentTime => {
+        if (!startTime) startTime = currentTime;
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+        const easedProgress = easings.easeInQuad(progress);
+        const easedProgressOut = easings.easeOutQuad(progress);
+        const isHovered2 = container.matches(':hover');
+        console.log(innerWidth);
+
+        if (isHovered2) {
+          if (direction === "right") {
+            neighbor1.style.left = `${easedProgressOut * (window.innerWidth - 100)}px`;
+            neighbor1.style.top = '0px';
+          } else if (direction === "down") {
+            neighbor1.style.left = window.innerWidth - 100 + 'px';
+            neighbor1.style.top = `${easedProgressOut * 430}px`;
+          } else if (direction === "left") {
+            neighbor1.style.left = `${window.innerWidth - 100 - easedProgressOut * (window.innerWidth - 100)}px`;
+            neighbor1.style.top = window.innerHeight - 145 + 'px';
+          } else if (direction === "up") {
+            neighbor1.style.left = '0px';
+            neighbor1.style.top = `${window.innerHeight - 145 - easedProgressOut * 430}px`;
+          }
+
+          if (progress >= 1) {
+            startTime = null;
+            const dirs = ["right", "down", "left", "up"];
+            direction = dirs[(dirs.indexOf(direction) + 1) % 4];
+          }
+        }
+
+        requestAnimationFrame(update);
+      };
+
+
+
+      requestAnimationFrame(update);
+    </script>
+</body>
+
+</html>

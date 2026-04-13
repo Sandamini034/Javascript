@@ -1,0 +1,101 @@
+#head {
+    height: 100px;
+    width:100px;
+    border-radius: 50%;
+    background-color: green;
+    position: relative;
+    border: 1px solid;
+}
+
+#left, #right{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: black;
+    position: absolute;
+    border: 5px solid;
+    border-color: white;
+}
+
+#left {
+    left: 10px;
+    top: 20px;
+}
+
+#right {
+    right: 5px;
+    top: 20px;
+}
+#box1 {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+    background-color:Orange;
+    overflow: hidden;
+    border: 5px solid;
+    border-color: black;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#container {
+    height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    background-color: brown;
+    border:solid 5px;
+}
+
+#mouth,#neighbor1.mouth{
+    width:30px;
+    height: 20px;
+    border:solid 5px;
+    border-color:black;
+    border-radius: 100%/100%;
+    position:absolute;
+    top:60%;
+    left:32%;
+    background-color: white;
+}
+
+#neighbor1{
+    width: 70px;
+    height: 100px;
+    border-radius: 100% 100% 20% 20%;
+    background-color: pink;
+    position: absolute;
+    border: solid 5px;
+    border-color: black;
+    display:absolute;
+    top: 0%;
+    left: 0%;
+    
+}
+
+#neighbor1::before {
+content: "";
+position: absolute;
+bottom: -23px;
+left: -1px;
+width: 40%;
+height: 20px;
+background-color: Pink;
+border-radius: 0 0 50% 50%;
+border:solid 5px;
+}
+#neighbor1::after {
+content: "";
+position: absolute;
+bottom: -23px;
+left: 35px;
+width: 40%;
+height: 20px;
+background-color: Pink;
+border:solid 5px;
+border-radius: 0 0 50% 50% ;
+}
