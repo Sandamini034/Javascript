@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Resizing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Image Riziser</h1>
+  </header>
+  <div id="container">
+    <input type="file" id="fileInput" style="display:none" onchange="draw()"><br><br>
+    <img id="logo"><br>
+    <button id="upload">Upload an Image</button><br>
+    <canvas id="myCanvas" width="200px" Height="200px"></canvas><br>
+    <br>
+    <input class="box" type="text" id="width" placeholder="Width"><br>
+    <input class="box" type="text" id="height" placeholder="Height"><br>
+    <button id="resize">Resize Image</button><br>
+    <button id="download">Download</button>
+  </div>
+  <script>
+    const uploadBtn = document.getElementById('upload');
+    uploadBtn.addEventListener('click', () => document.getElementById('fileInput').click());
+
+    function draw() {
+      const file = document.getElementById('fileInput').files[0];
+      if (!file) {
+        alert('Please select a file');
+        return;
+      }
+      if (!file.name.endsWith('.png') && !file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg')) {
+        alert('Please select a png or jpg file');
+        return;
+      }
+      const c = document.getElementById('myCanvas');
+      const ctx = c.getContext('2d');
+      const img = document.getElementById('logo');
+
+      img.onload = () => {
+        c.width = img.width;
+        c.height = img.height;
+        ctx.drawImage(img, 0, 0, c.width, c.height);
+      }
+      img.src = URL.createObjectURL(file);
+    }
+
+    const resizeBtn = document.getElementById('resize');
+    resizeBtn.addEventListener('click', resize);
+
+    function resize() {
+      const c = document.getElementById('myCanvas');
+      const ctx = c.getContext('2d');
+      const img = document.getElementById('logo');
+      const width = parseInt(document.getElementById('width').value);
+      const height = parseInt(document.getElementById('height').value);
+
+      if (!img.src) {
+        alert('Please upload an image first');
+        return;
+      }
+      if (!width || !height) {
+        alert('Please enter valid width and height');
+        return;
+      }
+      c.width = width;
+      c.height = height;
+      ctx.clearRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, width, height);
+    }
+
+    const downloadBtn = document.getElementById('download');
+    downloadBtn.addEventListener('click', download);
+
+    function download() {
+      const c = document.getElementById('myCanvas');
+      const img = document.getElementById('logo');
+
+      if (!img.src) {
+        alert('Please upload an image first');
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.download = 'resized_image.png';
+      link.href = c.toDataURL('image/png');
+      link.click();
+    }
+  </script>
+</body>
+
+</html>

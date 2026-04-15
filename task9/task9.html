@@ -49,7 +49,7 @@
       const update = currentTime => {
         const isHovered2 = container.matches(':hover');
 
-        if(isHovered2 && !wasHovered) {
+        if (isHovered2 && !wasHovered) {
           startTime = null;
         }
 
@@ -60,10 +60,11 @@
         const progress = Math.min(elapsedTime / duration, 1);
         const easedProgress = easings.linear(progress);
         const easedProgressOut = easings.easeOutQuad(progress);
+        const size = container.style.width ? parseInt(container.style.width) : 100;
 
         if (isHovered2) {
           if (direction === "right") {
-            neighbor1.style.left = `${easedProgress * (window.innerWidth - 100)}px`;
+            neighbor1.style.left = `${easedProgress * (window.innerWidth - size)}px`;
             neighbor1.style.top = '0px';
           } else if (direction === "down") {
             neighbor1.style.left = window.innerWidth - 100 + 'px';
@@ -85,8 +86,6 @@
 
         requestAnimationFrame(update);
       };
-
-
 
       requestAnimationFrame(update);
     </script>
