@@ -32,3 +32,29 @@ header{
     justify-content:center;
     background-color: #4CAF50;
 }
+.container{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    gap:10px;
+}
+#label1{
+    color:white;
+    display:inline;
+    position:relative;
+    margin-left:-315px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 18px;
+}
+.container1{
+    display:flex;
+    flex-direction:row;
+    gap:140px;
+    color:white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#widthLabel{
+    display:inline;
+    position:relative;
+    margin-left:-135px;
+}

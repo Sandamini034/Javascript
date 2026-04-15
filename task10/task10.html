@@ -17,15 +17,22 @@
     <img id="logo"><br>
     <button id="upload">Upload an Image</button><br>
     <canvas id="myCanvas" width="200px" Height="200px"></canvas><br>
-    <br>
-    <input class="box" type="text" id="width" placeholder="Width"><br>
-    <input class="box" type="text" id="height" placeholder="Height"><br>
+    <label id="label1">Resize</label><br>
+    <div class="container1">
+      <label id="widthLabel">Width</label>
+      <label>Height</label>
+    </div>
+    <div class="container">
+      <input class="box" type="text" id="width" placeholder="Width">
+      <input class="box" type="text" id="height" placeholder="Height"><br>
+    </div><br>
     <button id="resize">Resize Image</button><br>
     <button id="download">Download</button>
   </div>
   <script>
     const uploadBtn = document.getElementById('upload');
     uploadBtn.addEventListener('click', () => document.getElementById('fileInput').click());
+    let ratio;
 
     function draw() {
       const file = document.getElementById('fileInput').files[0];
@@ -45,9 +52,33 @@
         c.width = img.width;
         c.height = img.height;
         ctx.drawImage(img, 0, 0, c.width, c.height);
+        ratio = img.width / img.height;
+
+        document.getElementById('width').value = img.width;
+        document.getElementById('height').value = img.height;
       }
       img.src = URL.createObjectURL(file);
     }
+
+    const txt1 = document.getElementById('width');
+    const txt2= document.getElementById('height');
+    txt1.addEventListener('input',()=>{
+        const width = parseInt(txt1.value);
+        if(width && ratio){
+          txt2.value = Math.round(width / ratio);
+        }else{
+          txt2.value = '';
+        }
+      })
+
+      txt2.addEventListener('input',()=>{
+        const height = parseInt(txt2.value);
+        if(height && ratio){
+          txt1.value = Math.round(height * ratio);
+        }else{
+          txt1.value = '';
+        }
+      })
 
     const resizeBtn = document.getElementById('resize');
     resizeBtn.addEventListener('click', resize);
@@ -56,8 +87,9 @@
       const c = document.getElementById('myCanvas');
       const ctx = c.getContext('2d');
       const img = document.getElementById('logo');
-      const width = parseInt(document.getElementById('width').value);
-      const height = parseInt(document.getElementById('height').value);
+
+      let width = parseInt(txt1.value);
+      let height = parseInt(txt2.value);
 
       if (!img.src) {
         alert('Please upload an image first');
