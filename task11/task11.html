@@ -44,12 +44,11 @@
     const cursor = document.getElementById('cursor');
 
     document.documentElement.addEventListener('mousemove', (e) => {
-      cursor.style.left = e.pageX + 'px';
-      cursor2.style.left = e.pageX + 'px';
-      cursor.style.top = e.pageY + 'px';
-      cursor2.style.top = e.pageY + 'px';
-      cursor3.style.left = e.pageX + 'px';
-      cursor3.style.top = e.pageY + 'px';
+      const cursors = ["cursor","cursor2","cursor3"];
+      for(let cursor in cursors){
+        document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
+        document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
+      }
     });
 
     document.documentElement.addEventListener('mousedown', () => {
