@@ -33,6 +33,9 @@
     const uploadBtn = document.getElementById('upload');
     uploadBtn.addEventListener('click', () => document.getElementById('fileInput').click());
     let ratio;
+    const c = document.getElementById('myCanvas');
+    const ctx = c.getContext('2d');
+    const img = document.getElementById('logo');
 
     function draw() {
       const file = document.getElementById('fileInput').files[0];
@@ -44,9 +47,6 @@
         alert('Please select a png or jpg file');
         return;
       }
-      const c = document.getElementById('myCanvas');
-      const ctx = c.getContext('2d');
-      const img = document.getElementById('logo');
 
       img.onload = () => {
         c.width = img.width;
@@ -84,10 +84,6 @@
     resizeBtn.addEventListener('click', resize);
 
     function resize() {
-      const c = document.getElementById('myCanvas');
-      const ctx = c.getContext('2d');
-      const img = document.getElementById('logo');
-
       let width = parseInt(txt1.value);
       let height = parseInt(txt2.value);
 
@@ -109,9 +105,6 @@
     downloadBtn.addEventListener('click', download);
 
     function download() {
-      const c = document.getElementById('myCanvas');
-      const img = document.getElementById('logo');
-
       if (!img.src) {
         alert('Please upload an image first');
         return;

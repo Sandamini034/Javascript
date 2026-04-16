@@ -10,12 +10,15 @@
       cursor: none;
       margin: 0;
       padding: 0;
+    }
+    body{
       background-color: black;
     }
 
     #cursor {
       position: fixed;
       z-index: 99999;
+      pointer-events: none;
     }
 
     #cursor2,
@@ -76,13 +79,15 @@
 
      //documentElement is used to ensure that the event listeners are attached to the entire document,
     // allowing for consistent cursor behavior across all elements and interactions on the page.
-    document.documentElement.addEventListener('mousedown', () => {
+    document.documentElement.addEventListener('mousedown', (event) => {
       activation(2);
       cursor2.style.transform = 'scale(1.5)';
       x = event.pageX;
       y = event.pageY;
       isDragging = true;
+      //consoloe.log(event.button);
 
+      if(event.button===0){
       rect = document.createElement('div');
       rect.style.position = 'fixed';
       rect.style.left = x + 'px';
@@ -91,6 +96,7 @@
       rect.style.height = '0px';
       rect.style.border = '2px solid #0DD7FF';
       document.body.appendChild(rect);
+      }
     });
 
     document.documentElement.addEventListener('mouseup', () => {
@@ -129,7 +135,6 @@
     });
 
     document.documentElement.addEventListener('wheel', e => {
-      isDragging = false;
       activation(1);
       
       if (e.deltaY < 0) {
@@ -141,10 +146,6 @@
         cursor.style.transform = 'scale(1)';
       }, 200);
 
-      if(rect && !isDragging){
-        rect.remove();
-        rect = null;
-      }
     });
   </script>
 </body>

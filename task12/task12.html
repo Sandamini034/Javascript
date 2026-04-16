@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Image</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Crop Image</h1></header>
+
+    <div id="container">
+        <div id="container1">
+            <input type="file" id="chooseFile" onchange="draw()">
+            <button id="btn1">Select an image</button>
+            <br><br>
+            <canvas id="canvas1" width="100px" heigth="100px"></canvas>
+            <img id="uploadedImage">
+        </div>
+        <div id="container2">
+            <canvas id="canvas2" width="100px" height="100px"></canvas>
+        </div>
+    </div>
+<script>
+    const inputFile = document.querySelector("#chooseFile");
+    const btn = document.querySelector("#btn1");
+    btn.addEventListener('click',()=>inputFile.click());
+
+    const c = document.querySelector("#canvas1");
+    const ctx = c.getContext("2d");
+    const uploadedImage = document.querySelector('#uploadedImage');
+
+    function draw(){
+        const file = inputFile.files[0];
+        if(!file){
+            alert('Please select a file');
+            return;
+        }
+
+        if(!file.name.endsWith('.png') && !file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg')){
+            alert('Please select a png or jpg or jpeg file');
+            return;
+        }
+
+    uploadedImage.onload=()=>{
+        c.width = uploadedImage.width;
+        c.height = uploadedImage.height;
+        ctx.drawImage(uploadedImage, 0,0, c.width, c.height);    
+    }
+    uploadedImage.src = URL.createObjectURL(file);
+}
+
+const c1 = document.querySelector('#canvas2');
+const ctx2 = c1.getContext('2d');
+
+</script>
+</body>
+</html>

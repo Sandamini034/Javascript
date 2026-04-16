@@ -1,0 +1,46 @@
+header{
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    background-color: green;
+    position:absolute;
+    left:0;
+    top:0;
+    display:block;
+    text-align:center;
+    width:100%;
+    color:white;
+    font-size:larger;
+}
+
+body{
+    background-color: black;
+}
+
+#canvas1, #canvas2{
+    background-color: white;
+}
+
+#contaner1{
+    position:flex;
+    flex-direction:column;
+}
+#container{
+    position:relative;
+    top:100px;
+}
+
+#uploadedImage{
+    display:none;
+}
+input{
+    display:none;
+}
+#btn{
+    border-radius:10px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#container2{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    left:500px;
+}
