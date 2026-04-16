@@ -15,12 +15,14 @@
 
     #cursor {
       position: fixed;
+      z-index: 99999;
     }
 
     #cursor2,
     #cursor3 {
       position: fixed;
       display: none;
+      z-index: 99999;
     }
   </style>
 </head>
@@ -41,29 +43,56 @@
     </path>
   </svg>
   <script>
+
+    let isDragging = false;
+    let x = 0;
+    let y = 0;
+    let rect = null;
+
     const cursor = document.getElementById('cursor');
 
-    const activation = active =>{
-      cursor.style.display  = active === 1 ? 'block' : 'none';
+    const activation = active => {
+      cursor.style.display = active === 1 ? 'block' : 'none';
       cursor2.style.display = active === 2 ? 'block' : 'none';
       cursor3.style.display = active === 3 ? 'block' : 'none';
     }
 
-    document.documentElement.addEventListener('mousemove', (e) => {
-      const cursors = ["cursor","cursor2","cursor3"];
-      for(let cursor in cursors){
-        document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
-        document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
-      }
-    });
-
+    //documentElement is used to ensure that the event listeners are attached to the entire document,
+    // allowing for consistent cursor behavior across all elements and interactions on the page.
     document.documentElement.addEventListener('mousedown', () => {
       activation(2);
       cursor2.style.transform = 'scale(1.5)';
+      x = event.pageX;
+      y = event.pageY;
+      isDragging = true;
+
+      rect = document.createElement('div');
+      rect.style.position = 'fixed';
+      rect.style.left = x + 'px';
+      rect.style.top = y + 'px';
+      rect.style.width = '0px';
+      rect.style.height = '0px';
+      rect.style.border = '2px solid #0DD7FF';
+      document.body.appendChild(rect);
+    });
+
+    document.documentElement.addEventListener('mousemove', (e) => {
+      const cursors = ["cursor", "cursor2", "cursor3"];
+      for (let cursor in cursors) {
+        document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
+        document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
+      }
+      if (isDragging) {
+        const width = Math.abs(e.pageX - x);
+        const height = Math.abs(e.pageY - y);
+        rect.style.width = width + 'px';
+        rect.style.height = height + 'px';
+      }
     });
 
     document.documentElement.addEventListener('mouseup', () => {
       activation(1);
+      isDragging = false;
       cursor.style.transform = 'scale(1)';
       cursor.style.display = 'block';
     });
@@ -91,6 +120,7 @@
     });
 
     document.documentElement.addEventListener('wheel', e => {
+      isDragging = false;
       activation(1);
       if (e.deltaY < 0) {
         cursor.style.transform = 'scale(1.5)';
