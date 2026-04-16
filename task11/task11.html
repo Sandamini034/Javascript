@@ -1,91 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Custom Cursor</title>
-    <style>
-        *{
-           cursor: none; 
-           margin:0;
-           padding:0;
-           background-color: black;
-        }
-        #cursor{
-            position:fixed;
-        }
-        #cursor2,#cursor3{
-            position:fixed;
-            display:none;
-        }
-      </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Cursor</title>
+  <style>
+    * {
+      cursor: none;
+      margin: 0;
+      padding: 0;
+      background-color: black;
+    }
+
+    #cursor {
+      position: fixed;
+    }
+
+    #cursor2,
+    #cursor3 {
+      position: fixed;
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
-    <svg id="cursor" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#FFF" stroke="#0DD7FF" stroke-width="2" stroke-linejoin="round" d="M18 14.88 8.16 3.15c-.26-.31-.76-.12-.76.28v15.31c0 .36.42.56.7.33l3.1-2.6 1.55 4.25c.08.22.33.34.55.26l1.61-.59a.43.43 0 0 0 .26-.55l-1.55-4.25h4.05c.36 0 .56-.42.33-.7Z"></path></svg>
-    <svg id="cursor2" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#0DD7FF" d="M19.27 15.32 7.77 1.61A1 1 0 0 0 6 2.25v17.89a1 1 0 0 0 1.64.77l3.08-2.58 1.56 4.3a1 1 0 0 0 1.28.6l1.88-.68a1 1 0 0 0 .6-1.28l-1.56-4.3h4.02a1 1 0 0 0 .77-1.64Z"></path></svg>
-    <svg id="cursor3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><path fill="#FFF" stroke="#000" stroke-width="2" stroke-linejoin="round" d="M15 3H8L4 14h6l-3 8 13-12h-7.5L15 3z"></path></svg>
-    <script>
-        const cursor = document.getElementById('cursor');
+  <svg id="cursor" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+    <path fill="#FFF" stroke="#0DD7FF" stroke-width="2" stroke-linejoin="round"
+      d="M18 14.88 8.16 3.15c-.26-.31-.76-.12-.76.28v15.31c0 .36.42.56.7.33l3.1-2.6 1.55 4.25c.08.22.33.34.55.26l1.61-.59a.43.43 0 0 0 .26-.55l-1.55-4.25h4.05c.36 0 .56-.42.33-.7Z">
+    </path>
+  </svg>
+  <svg id="cursor2" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+    <path fill="#0DD7FF"
+      d="M19.27 15.32 7.77 1.61A1 1 0 0 0 6 2.25v17.89a1 1 0 0 0 1.64.77l3.08-2.58 1.56 4.3a1 1 0 0 0 1.28.6l1.88-.68a1 1 0 0 0 .6-1.28l-1.56-4.3h4.02a1 1 0 0 0 .77-1.64Z">
+    </path>
+  </svg>
+  <svg id="cursor3" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+    <path fill="#FFF" stroke="#000" stroke-width="2" stroke-linejoin="round" d="M15 3H8L4 14h6l-3 8 13-12h-7.5L15 3z">
+    </path>
+  </svg>
+  <script>
+    const cursor = document.getElementById('cursor');
 
-        document.documentElement.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.pageX + 'px';
-            cursor2.style.left = e.pageX + 'px';
-            cursor.style.top = e.pageY + 'px';
-            cursor2.style.top = e.pageY + 'px';
-            cursor3.style.left = e.pageX + 'px';
-            cursor3.style.top = e.pageY + 'px';
-        }); 
+    document.documentElement.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.pageX + 'px';
+      cursor2.style.left = e.pageX + 'px';
+      cursor.style.top = e.pageY + 'px';
+      cursor2.style.top = e.pageY + 'px';
+      cursor3.style.left = e.pageX + 'px';
+      cursor3.style.top = e.pageY + 'px';
+    });
 
-        document.documentElement.addEventListener('mousedown', () => {
-            cursor.style.display = 'none';
-            cursor3.style.display = 'none';
-            cursor2.style.display = 'block';
-            cursor2.style.transform = 'scale(1.5)';
-        });
+    document.documentElement.addEventListener('mousedown', () => {
+      cursor.style.display = 'none';
+      cursor3.style.display = 'none';
+      cursor2.style.display = 'block';
+      cursor2.style.transform = 'scale(1.5)';
+    });
 
-        document.documentElement.addEventListener('mouseup', () => {
-            cursor.style.transform = 'scale(1)';
-            cursor.style.display = 'block';
-            cursor2.style.display = 'none';
-            cursor3.style.display = 'none';
-        });
-        document.documentElement.addEventListener('mouseleave', () => {
-            cursor.style.display = 'block';
-            cursor2.style.display = 'none';
-            cursor3.style.display = 'none';
-        });
-        document.documentElement.addEventListener('mouseenter', () => {
-            cursor.style.display = 'block';
-            cursor2.style.display = 'none';
-            cursor3.style.display = 'none';
-        });
+    document.documentElement.addEventListener('mouseup', () => {
+      cursor.style.transform = 'scale(1)';
+      cursor.style.display = 'block';
+      cursor2.style.display = 'none';
+      cursor3.style.display = 'none';
+    });
+    document.documentElement.addEventListener('mouseleave', () => {
+      cursor.style.display = 'block';
+      cursor2.style.display = 'none';
+      cursor3.style.display = 'none';
+    });
+    document.documentElement.addEventListener('mouseenter', () => {
+      cursor.style.display = 'block';
+      cursor2.style.display = 'none';
+      cursor3.style.display = 'none';
+    });
 
-        document.documentElement.addEventListener('click', () => {
-            cursor.style.transform = 'scale(1.5)';
-            setTimeout(() => {
-                cursor.style.transform = 'scale(1)';
-            }, 200);
-        });
+    document.documentElement.addEventListener('click', () => {
+      cursor.style.transform = 'scale(1.5)';
+      setTimeout(() => {
+        cursor.style.transform = 'scale(1)';
+      }, 200);
+    });
 
-        document.documentElement.addEventListener('dblclick', () => {;   
-            cursor3.style.display = 'block';
-            cursor3.style.transform = 'scale(2)';
-            setTimeout(() => {
-                cursor3.style.display = 'none';
-                cursor.style.transform = 'scale(1)';
-            }, 200);
-        });
+    document.documentElement.addEventListener('dblclick', () => {
+      ;
+      cursor3.style.display = 'block';
+      cursor3.style.transform = 'scale(2)';
+      setTimeout(() => {
+        cursor3.style.display = 'none';
+        cursor.style.transform = 'scale(1)';
+      }, 200);
+    });
 
-        document.documentElement.addEventListener('wheel',e => {
-            if(e.deltaY < 0){
-                cursor.style.transform = 'scale(1.5)';
-            } else {
-                cursor.style.transform = 'scale(0.5)';
-            }
-            setTimeout(() => {
-                cursor.style.transform = 'scale(1)';
-            }, 200);
-        });
-    </script>
+    document.documentElement.addEventListener('wheel', e => {
+      if (e.deltaY < 0) {
+        cursor.style.transform = 'scale(1.5)';
+      } else {
+        cursor.style.transform = 'scale(0.5)';
+      }
+      setTimeout(() => {
+        cursor.style.transform = 'scale(1)';
+      }, 200);
+    });
+  </script>
 </body>
+
 </html>
