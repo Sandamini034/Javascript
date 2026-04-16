@@ -43,6 +43,12 @@
   <script>
     const cursor = document.getElementById('cursor');
 
+    const activation = active =>{
+      cursor.style.display  = active === 1 ? 'block' : 'none';
+      cursor2.style.display = active === 2 ? 'block' : 'none';
+      cursor3.style.display = active === 3 ? 'block' : 'none';
+    }
+
     document.documentElement.addEventListener('mousemove', (e) => {
       const cursors = ["cursor","cursor2","cursor3"];
       for(let cursor in cursors){
@@ -52,27 +58,20 @@
     });
 
     document.documentElement.addEventListener('mousedown', () => {
-      cursor.style.display = 'none';
-      cursor3.style.display = 'none';
-      cursor2.style.display = 'block';
+      activation(2);
       cursor2.style.transform = 'scale(1.5)';
     });
 
     document.documentElement.addEventListener('mouseup', () => {
+      activation(1);
       cursor.style.transform = 'scale(1)';
       cursor.style.display = 'block';
-      cursor2.style.display = 'none';
-      cursor3.style.display = 'none';
     });
     document.documentElement.addEventListener('mouseleave', () => {
-      cursor.style.display = 'block';
-      cursor2.style.display = 'none';
-      cursor3.style.display = 'none';
+      activation(0);
     });
     document.documentElement.addEventListener('mouseenter', () => {
-      cursor.style.display = 'block';
-      cursor2.style.display = 'none';
-      cursor3.style.display = 'none';
+      activation(1);
     });
 
     document.documentElement.addEventListener('click', () => {
@@ -83,7 +82,6 @@
     });
 
     document.documentElement.addEventListener('dblclick', () => {
-      ;
       cursor3.style.display = 'block';
       cursor3.style.transform = 'scale(2)';
       setTimeout(() => {
@@ -93,6 +91,7 @@
     });
 
     document.documentElement.addEventListener('wheel', e => {
+      activation(1);
       if (e.deltaY < 0) {
         cursor.style.transform = 'scale(1.5)';
       } else {
