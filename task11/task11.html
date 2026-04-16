@@ -48,7 +48,6 @@
     let x = 0;
     let y = 0;
     let rect = null;
-    let hasMoved = false;
 
     const cursor = document.getElementById('cursor');
 
@@ -65,14 +64,13 @@
         document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
         document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
       }
+      isDragging && (hasMoved = true);
 
       if (isDragging) {
-        if(!hasMoved){
           const width = Math.abs(e.pageX - x);
           const height = Math.abs(e.pageY - y);
           rect.style.width = width + 'px';
           rect.style.height = height + 'px';
-        }
       }
     });
 
@@ -84,7 +82,6 @@
       x = event.pageX;
       y = event.pageY;
       isDragging = true;
-      hasMoved = false;
 
       rect = document.createElement('div');
       rect.style.position = 'fixed';
@@ -116,7 +113,7 @@
         cursor.style.transform = 'scale(1)';
       }, 200);
 
-      if(rect && !hasMoved){
+      if(rect && !isDragging){
         document.body.removeChild(rect);
       }
     });
@@ -134,6 +131,7 @@
     document.documentElement.addEventListener('wheel', e => {
       isDragging = false;
       activation(1);
+      
       if (e.deltaY < 0) {
         cursor.style.transform = 'scale(1.5)';
       } else {
