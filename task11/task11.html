@@ -48,6 +48,7 @@
     let x = 0;
     let y = 0;
     let rect = null;
+    let hasMoved = false;
 
     const cursor = document.getElementById('cursor');
 
@@ -57,7 +58,25 @@
       cursor3.style.display = active === 3 ? 'block' : 'none';
     }
 
-    //documentElement is used to ensure that the event listeners are attached to the entire document,
+    document.documentElement.addEventListener('mousemove', (e) => {
+      activation(1);
+      const cursors = ["cursor", "cursor2", "cursor3"];
+      for (let cursor in cursors) {
+        document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
+        document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
+      }
+
+      if (isDragging) {
+        if(!hasMoved){
+          const width = Math.abs(e.pageX - x);
+          const height = Math.abs(e.pageY - y);
+          rect.style.width = width + 'px';
+          rect.style.height = height + 'px';
+        }
+      }
+    });
+
+     //documentElement is used to ensure that the event listeners are attached to the entire document,
     // allowing for consistent cursor behavior across all elements and interactions on the page.
     document.documentElement.addEventListener('mousedown', () => {
       activation(2);
@@ -65,6 +84,7 @@
       x = event.pageX;
       y = event.pageY;
       isDragging = true;
+      hasMoved = false;
 
       rect = document.createElement('div');
       rect.style.position = 'fixed';
@@ -74,20 +94,6 @@
       rect.style.height = '0px';
       rect.style.border = '2px solid #0DD7FF';
       document.body.appendChild(rect);
-    });
-
-    document.documentElement.addEventListener('mousemove', (e) => {
-      const cursors = ["cursor", "cursor2", "cursor3"];
-      for (let cursor in cursors) {
-        document.getElementById(cursors[cursor]).style.left = e.pageX + 'px';
-        document.getElementById(cursors[cursor]).style.top = e.pageY + 'px';
-      }
-      if (isDragging) {
-        const width = Math.abs(e.pageX - x);
-        const height = Math.abs(e.pageY - y);
-        rect.style.width = width + 'px';
-        rect.style.height = height + 'px';
-      }
     });
 
     document.documentElement.addEventListener('mouseup', () => {
@@ -104,13 +110,19 @@
     });
 
     document.documentElement.addEventListener('click', () => {
+      isDragging=false;
       cursor.style.transform = 'scale(1.5)';
       setTimeout(() => {
         cursor.style.transform = 'scale(1)';
       }, 200);
+
+      if(rect && !hasMoved){
+        document.body.removeChild(rect);
+      }
     });
 
     document.documentElement.addEventListener('dblclick', () => {
+      isDragging = false;
       cursor3.style.display = 'block';
       cursor3.style.transform = 'scale(2)';
       setTimeout(() => {
@@ -130,6 +142,11 @@
       setTimeout(() => {
         cursor.style.transform = 'scale(1)';
       }, 200);
+
+      if(rect && !isDragging){
+        rect.remove();
+        rect = null;
+      }
     });
   </script>
 </body>
