@@ -11,33 +11,33 @@
 <header>
   <h1>Crop Image</h1>
 </header><br>
-  <div id="container1">
-    <input type="file" id="chooseFile" onchange="draw()">
-    <button class='btn' id="btn1">Select an image</button>
-    <br><br>
-    <div id="wrapper">
-      <canvas id="canvas1" width=420 heigth=200></canvas>
+<div id="container1">
+  <input type="file" id="chooseFile" onchange="draw()">
+  <button class='btn' id="btn1">Select an image</button>
+  <br><br>
+  <div id="wrapper">
+    <canvas id="canvas1" width=420 heigth=200></canvas>
     <div id="rect" style="display:none;"></div>
-    </div>
-    <img id="uploadedImage">
   </div>
-  <div id="container2">
-    <br>
-    <hr style="border: 2px solid #2e2eff; width:70%">
-    <label id="label1">Cropped Image</label><br>
-    <canvas id="canvas2" width=100 height=100></canvas>
-    <img id="croppedImage">
-    <label id="label2">X</label>
-    <input class="box" type="text" id="x" placeholder="0" readonly>
-    <label id="label3">Y</label>
-    <input class="box" type="text" id="y" placeholder="0" readonly><br>
-    <label id="label4">Width</label>
-    <input class="box" type="text" id="width" placeholder="Width" readonly>
-    <label id="label5">Height</label>
-    <input class="box" type="text" id="height" placeholder="Height" readonly><br>
-    <button class="btn" id="Download">Download image</button>
-    <br>
-  </div>
+  <img id="uploadedImage">
+</div>
+<div id="container2">
+  <br>
+  <hr style="border: 2px solid #2e2eff; width:70%">
+  <label id="label1">Cropped Image</label><br>
+  <canvas id="canvas2" width=100 height=100></canvas>
+  <img id="croppedImage">
+  <label id="label2">X</label>
+  <input class="box" type="text" id="x" placeholder="0" readonly>
+  <label id="label3">Y</label>
+  <input class="box" type="text" id="y" placeholder="0" readonly><br>
+  <label id="label4">Width</label>
+  <input class="box" type="text" id="width" placeholder="Width" readonly>
+  <label id="label5">Height</label>
+  <input class="box" type="text" id="height" placeholder="Height" readonly><br>
+  <button class="btn" id="Download">Download image</button>
+  <br>
+</div>
 
 <body>
   <script>
@@ -50,7 +50,7 @@
     const uploadedImage = document.querySelector('#uploadedImage');
     const rect = document.querySelector('#rect');
 
-    c.height =200;
+    c.height = 200;
     console.log(c.height);
     document.getElementById('width').value = c.width;
     document.getElementById('height').value = c.height;
@@ -58,7 +58,7 @@
     document.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
-    
+
     c.addEventListener('drop', (e) => {
       const files = e.dataTransfer.files;
       if (files.length === 0) { return }
@@ -103,14 +103,14 @@
 
     let x = 0;
     let y = 0;
-    let endX =0;
+    let endX = 0;
     let endY = 0;
     let width = 0;
     let height = 0;
-    let originX =0;
-    let originY=0;
+    let originX = 0;
+    let originY = 0;
 
-    const setDimensions =()=>{
+    const setDimensions = () => {
       originX = Math.min(x, endX);
       originY = Math.min(y, endY);
       width = Math.abs(endX - x);
@@ -124,7 +124,7 @@
         rect.style.width = `${width}px`;
         rect.style.height = `${height}px`;
         rect.style.display = "block";
-        rect.backgroundColor="blue";
+        rect.backgroundColor = "blue";
         rect.style.opacity = 0.5;
       } else {
         rect.style.display = "none";
@@ -137,7 +137,7 @@
           activeRect.remove();
           activeRect = false;
         }
-        console.log(event); 
+        console.log(event);
         isDragged = true;
         x = event.offsetX;
         y = event.offsetY;
@@ -151,15 +151,15 @@
 
     c.addEventListener('mousemove', (e) => {
       if (isDragged) {
-      endX = Math.max(0, Math.min(e.offsetX, c.width));
-      endY = Math.max(0, Math.min(e.offsetY, c.height));
-      setDimensions();
-      updateSelection(true);
+        endX = Math.max(0, Math.min(e.offsetX, c.width));
+        endY = Math.max(0, Math.min(e.offsetY, c.height));
+        setDimensions();
+        updateSelection(true);
 
-      document.getElementById('x').value = Math.round(originX);
-      document.getElementById('y').value = Math.round(originY);
-      document.getElementById('width').value = Math.round(width);
-      document.getElementById('height').value = Math.round(height);
+        document.getElementById('x').value = Math.round(originX);
+        document.getElementById('y').value = Math.round(originY);
+        document.getElementById('width').value = Math.round(width);
+        document.getElementById('height').value = Math.round(height);
       }
     })
 
@@ -183,7 +183,7 @@
         document.getElementById('width').value = finalW;
         document.getElementById('height').value = finalH;
       }
-     
+
     });
 
     const downloadBtn = document.getElementById('Download');
