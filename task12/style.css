@@ -1,31 +1,32 @@
 header{
-    font-family:Georgia, 'Times New Roman', Times, serif;
     background-color: green;
-    position:absolute;
-    left:0;
-    top:0;
-    display:block;
+    padding:10px 0;
     text-align:center;
     width:100%;
-    color:white;
-    font-size:larger;
+    margin-bottom:20px;
 }
 
 body{
     background-color: black;
-}
-
-#canvas1, #canvas2{
-    background-color: white;
+    color:white;
+    margin:0;
+    padding:0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 #contaner1{
-    position:flex;
+    position:relative;
+    display:flex;
     flex-direction:column;
+    align-items:center;
+    margin:0;
+    padding:0;
 }
 #container{
-    position:relative;
-    top:100px;
+    display:flex;
+    justify-content: center;
+    gap:100px;
+    padding:20px;
 }
 
 #uploadedImage{
@@ -36,11 +37,64 @@ input{
 }
 #btn{
     border-radius:10px;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 #container2{
-    position:relative;
     display:flex;
     flex-direction:column;
-    left:500px;
+    align-items:center;
+    background-color: #444;
+    height:100%;
+    border-radius:10px;
+}
+
+#cursor2{
+    display:none;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:99999;
+    pointer-events: none;
+    margin:0;
+    padding: 0;
+}
+
+.btn{
+    width:150px;
+    border-radius:15px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color:green;
+    color:white;
+    border:solid 1px white;
+    font-size:15px;
+    padding:10px;
+}
+
+canvas {
+    background-color: #fff;
+    border: 2px solid #444;
+    max-width: 100%;
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.box {
+    background-color: white;
+    color: black;    
+    border: 1px solid #ccc;
+    padding: 8px;
+    margin: 5px 0;   
+    width: 80px;     
+    display: inline-block;
+    border-radius: 4px;
+    position: static;   
+}
+
+#btn1{
+    margin-left:25px;
 }

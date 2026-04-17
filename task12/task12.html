@@ -1,58 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crop Image</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header><h1>Crop Image</h1></header>
 
-    <div id="container">
-        <div id="container1">
-            <input type="file" id="chooseFile" onchange="draw()">
-            <button id="btn1">Select an image</button>
-            <br><br>
-            <canvas id="canvas1" width="100px" heigth="100px"></canvas>
-            <img id="uploadedImage">
-        </div>
-        <div id="container2">
-            <canvas id="canvas2" width="100px" height="100px"></canvas>
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crop Image</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Crop Image</h1>
+  </header>
+
+  <div id="container">
+    <svg id='cursor2' xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24">
+      <g fill="none" stroke="#000" stroke-width="2">
+        <circle cx="12" cy="12" r="8.5"></circle>
+        <path d="M1 12h5M18 12h5M12 6V1.04M12 23v-4.96M11.95 11.95h.1v.1h-.1z"></path>
+      </g>
+    </svg>
+
+    <div id="container1">
+      <input type="file" id="chooseFile" onchange="draw()">
+      <button class='btn' id="btn1">Select an image</button>
+      <br><br>
+      <canvas id="canvas1" width="200px" heigth="200px"></canvas>
+      <img id="uploadedImage">
     </div>
-<script>
+    <div id="container2">
+      <label id="label1">Cropped Image</label><br>
+      <canvas id="canvas2" width="100px" height="100px"></canvas>
+      <img id="croppedImage">
+      <label id="label2">X</label>
+      <input class="box" type="text" id="x" placeholder="0" readonly>
+      <label id="label3">Y</label>
+      <input class="box" type="text" id="y" placeholder="0" readonly><br>
+      <label id="label4">Width</label>
+      <input class="box" type="text" id="width" placeholder="Width" readonly>
+      <label id="label5">Height</label>
+      <input class="box" type="text" id="height" placeholder="Height" readonly><br>
+      <button class="btn" id="Download">Download image</button>
+    </div>
+  </div>
+  <script>
+    const cursor2 = document.querySelector('#cursor2');
+    const container = document.querySelector('#container1');
     const inputFile = document.querySelector("#chooseFile");
     const btn = document.querySelector("#btn1");
-    btn.addEventListener('click',()=>inputFile.click());
+    btn.addEventListener('click', () => inputFile.click());
 
     const c = document.querySelector("#canvas1");
     const ctx = c.getContext("2d");
     const uploadedImage = document.querySelector('#uploadedImage');
 
-    function draw(){
-        const file = inputFile.files[0];
-        if(!file){
-            alert('Please select a file');
-            return;
-        }
+    c.height = 200;
+    document.getElementById('width').value = c.width;
+    document.getElementById('height').value = c.height;
 
-        if(!file.name.endsWith('.png') && !file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg')){
-            alert('Please select a png or jpg or jpeg file');
-            return;
-        }
+    document.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+    c.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      if (files.length === 0) { return }
+      window.alert("File dropped: " + files.length);
+    });
 
-    uploadedImage.onload=()=>{
+    document.documentElement.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) {
+        inputFile.files = e.dataTransfer.files;
+        draw();
+      }
+    });
+    function draw() {
+      const file = inputFile.files[0];
+      if (!file) {
+        alert('Please select a file');
+        return;
+      }
+
+      if (!file.name.endsWith('.png') && !file.name.endsWith('.jpg') && !file.name.endsWith('.jpeg')) {
+        alert('Please select a png or jpg or jpeg file');
+        return;
+      }
+
+      uploadedImage.onload = () => {
         c.width = uploadedImage.width;
         c.height = uploadedImage.height;
-        ctx.drawImage(uploadedImage, 0,0, c.width, c.height);    
+        ctx.drawImage(uploadedImage, 0, 0, c.width, c.height);
+        document.getElementById('width').value = c.width;
+        document.getElementById('height').value = c.height;
+      }
+      uploadedImage.src = URL.createObjectURL(file);
     }
-    uploadedImage.src = URL.createObjectURL(file);
-}
 
-const c1 = document.querySelector('#canvas2');
-const ctx2 = c1.getContext('2d');
 
-</script>
+    const c1 = document.querySelector('#canvas2');
+    const ctx2 = c1.getContext('2d');
+    let isDragged = false;
+    let activeRect = null;
+    let x = 0;
+    let y = 0;
+    let width = 0;
+    let height = 0;
+    let rect = null;
+
+
+    c.addEventListener('mousedown', event => {
+      if (event.button === 0) {
+        if (activeRect) {
+          activeRect.remove();
+          activeRect = false;
+        }
+        isDragged = true;
+        x = event.pageX;
+        y = event.pageY;
+
+        rect = document.createElement("div");
+        activeRect = rect;
+
+        rect.style.position = "absolute";
+        rect.style.left = x + 'px';
+        rect.style.top = y + 'px';
+        rect.style.width = '0px';
+        rect.style.height = '0px';
+        rect.style.background = "green";
+        rect.style.border = "solid 1px";
+        rect.style.opacity = 0.5;
+        document.body.appendChild(rect);
+        document.getElementById('x').value = Math.round(x - c.getBoundingClientRect().left - window.scrollX);
+        document.getElementById('y').value = Math.round(y - c.getBoundingClientRect().top - window.scrollY);
+      }
+    })
+
+    c.addEventListener('mousemove', (e) => {
+      cursor2.style.left = (e.clientX - 24) + 'px';
+      cursor2.style.top = (e.clientY - 24) + 'px';
+      cursor2.style.display = "block";
+      if (isDragged) {
+        width = e.pageX - x;
+        height = e.pageY - y;
+
+        rect.style.left = (width < 0 ? e.pageX : x) + 'px';
+        rect.style.top = (height < 0 ? e.pageY : y) + 'px';
+        rect.style.width = width + 'px';
+        rect.style.height = height + 'px';
+        console.log(width, height);
+      }
+    })
+
+    document.addEventListener('mouseup', (e) => {
+      if (isDragged && rect) {
+        isDragged = false;
+
+        const rectPos = c.getBoundingClientRect();
+
+        const sourceX = x - (rectPos.left + window.scrollX);
+        const sourceY = y - (rectPos.top + window.scrollY);
+
+        const finalW = Math.abs(width);
+        const finalH = Math.abs(height);
+
+        c1.width = finalW;
+        c1.height = finalH;
+
+        ctx2.drawImage(
+          c,
+          sourceX, sourceY, width, height,
+          0, 0, finalW, finalH
+        );
+
+        rect.remove();
+        activeRect = null;
+
+        document.getElementById('width').value = finalW;
+        document.getElementById('height').value = finalH;
+      }
+      rect = null;
+    });
+
+    c.addEventListener('mouseenter', (e) => {
+      document.body.style.cursor = "none";
+      cursor2.style.display = "block";
+    })
+
+    c.addEventListener('mouseleave', (e) => {
+      cursor2.style.display = "none";
+      document.body.style.cursor = "default";
+    })
+
+    const downloadBtn = document.getElementById('Download');
+    downloadBtn.addEventListener('click', () => {
+      if (!c1.width || !c1.height) {
+        alert('Please select an area to crop first');
+        return;
+      }
+      const link = document.createElement('a');
+      link.download = 'cropped_image.png';
+      link.href = c1.toDataURL('image/png');
+      link.click();
+    });
+  </script>
 </body>
+
 </html>
