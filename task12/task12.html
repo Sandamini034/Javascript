@@ -61,11 +61,6 @@
     document.addEventListener('dragover', (e) => {
       e.preventDefault();
     });
-    c.addEventListener('drop', (e) => {
-      const files = e.dataTransfer.files;
-      if (files.length === 0) { return }
-      window.alert("File dropped: " + files.length);
-    });
 
     document.documentElement.addEventListener('drop', (e) => {
       e.preventDefault();
