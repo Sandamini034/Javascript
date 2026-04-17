@@ -7,7 +7,7 @@ header{
 }
 
 body{
-    background-color: black;
+    background-color:#0e2136;
     color:white;
     margin:0;
     padding:0;
@@ -42,7 +42,7 @@ input{
     display:flex;
     flex-direction:column;
     align-items:center;
-    background-color: #444;
+    background-color: #142d4a;
     height:100%;
     border-radius:10px;
 }
