@@ -47,6 +47,7 @@
   pencil.addEventListener("click", () => {
     pTool = true;
     eTool = false;
+    c.style.cursor = "crosshair";
   });
   clearBtn.addEventListener("click", () => {
     ctx.clearRect(0, 0, c.width, c.height);
