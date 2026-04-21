@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paint Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<div id="container">
+  <header>
+    <h1>Painter</h1>
+  </header>
+  <div id="container1">
+    <input type="color" id="select">
+    <select name="fontSize" id="select2">
+    </select>
+    <button id="pencil" class="tool">Pencil</button>
+    <button id="eraser" class="tool">Eraser</button>
+    <button id="clear" class="tool">Clear</button>
+  </div>
+  <div id="wrapper">
+    <canvas id="canvas" width=500 height=300></canvas>
+  </div>
+</div>
+<script>
+  const c = document.querySelector("#canvas");
+  const ctx = c.getContext("2d");
+  const pencil = document.querySelector('#pencil');
+  const eraser = document.querySelector('#eraser');
+  const clearBtn = document.querySelector('#clear');
+  const selection = document.querySelector('#select');
+  const selection2 = document.querySelector('#select2');
+  let fontSize = selection2.value;
+
+  const sizes = [10, 12, 14, 16, 18, 20];
+  let isActive = false;
+  let lastX = 0;
+  let lastY = 0;
+  let pTool = true;
+  let eTool = false;
+
+  sizes.forEach(size => {
+    const option = document.createElement("option");
+    option.value = size;
+    option.textContent = size;
+    selection2.appendChild(option);
+  })
+
+  c.width = window.innerWidth * 0.9;
+  c.height = window.innerHeight * 0.7;
+
+  eraser.addEventListener("click", () => {
+    pTool = false;
+    eTool = true;
+    c.style.cursor = "cell";
+    eraser.style.boxShadow = "0px 0px 5px 5px #fff";
+    pencil.style.boxShadow = "0px 0px 5px 5px #282828";
+  });
+  pencil.addEventListener("click", () => {
+    pTool = true;
+    eTool = false;
+    c.style.cursor = "crosshair";
+    pencil.style.boxShadow = "0px 0px 5px 5px #fff";
+    eraser.style.boxShadow = "0px 0px 5px 5px #282828";
+  });
+  clearBtn.addEventListener("click", () => {
+    ctx.clearRect(0, 0, c.width, c.height);
+    eraser.style.boxShadow = "0px 0px 5px 5px #282828";
+    pencil.style.boxShadow = "0px 0px 5px 5px #282828";
+  });
+
+  c.addEventListener("pointerdown", (e) => {
+    isActive = true;
+    lastX = e.offsetX;
+    lastY = e.offsetY;
+  });
+  c.addEventListener("pointermove", event => {
+    if (!isActive) { return };
+    ctx.strokeStyle = selection.value;
+    ctx.lineCap = "round";
+    const x = event.offsetX;
+    const y = event.offsetY;
+
+    if (pTool) {
+      ctx.beginPath();
+      fontSize = selection2.value;
+      ctx.lineWidth = fontSize;
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    } else if (eTool) {
+      ctx.beginPath();
+      ctx.strokeStyle = "#282828";
+      ctx.lineWidth = "5";
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+
+    lastX = x;
+    lastY = y;
+  })
+
+  c.addEventListener("pointerout", () => isActive = false);
+  c.addEventListener("pointerup", () => isActive = false);
+</script>
+
+</html>
