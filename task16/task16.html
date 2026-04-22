@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paint Tool</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<header>
+    <h1>Painter</h1>
+  </header>
+  <br>
+<div id="container">
+  <div id="container1">
+    <input type="color" id="select" value="#fff">
+    <select name="fontSize" id="select2">
+    </select>
+    <div class="menu" data-tool="pencil">
+        <div class="tools">
+            <button id="pencil">Pencil</button>
+            <button id="eraser">Eraser</button>
+            <button id="clear">Clear</button>
+        </div>
+    </div>
+    <button id="record"></button>
+    <button id="download">Download</button>
+  </div>
+  <div id="wrapper">
+    <canvas id="canvas" width=500 height=300></canvas>
+  </div>
+  <video id="video"></video>
+</div>
+<script src="script.js"></script>
+</html>
