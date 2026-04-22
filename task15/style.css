@@ -1,0 +1,66 @@
+#canvas{
+    background-color: #282828;
+    touch-action: none;
+    cursor:crosshair;
+    border-radius:10px;
+}
+#container{
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:20px;
+}
+
+#wrapper{
+    position:relative;
+    display:inline-block;
+}
+
+header{
+    color:white;
+    background-color:#282828;
+    display:block;
+    width:100%;
+    text-align:center;
+    border-radius:5px;
+}
+#container1{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+}
+
+#select,#select2{
+    width:100px;
+    height:25px;
+    border-radius:5px;
+}
+
+.menu[data-tool="pencil"] #pencil,
+.menu[data-tool="eraser"] #eraser {
+  background-color: #606060;
+  color: #fff;
+}
+
+#container[data-tool="pencil"] #canvas {
+    cursor: crosshair;
+  }
+  
+#container[data-tool="eraser"] #canvas {
+    cursor: cell;
+}
+
+.tools button{
+    border-radius: 5px;
+    padding:5px;
+    width:50px;
+    box-shadow:0 0 5px 5px #282828
+}
+
+.tools{
+    display:flex;
+    gap:10px;
+}
