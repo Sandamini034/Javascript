@@ -1,0 +1,32 @@
+canvas{
+    background-color: black;
+    position:relative;
+}
+#menu{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background-color: black;
+    border:solid 10px #2e2e2e;
+}
+body{
+    position:relative;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #2e2e2e;
+    padding:0;
+    margin:0;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+a:hover {
+    color: #ff6347;
+}
+h1{
+    color: #ff6347;
+    text-align: center;
+    display: block;
+}
