@@ -6,16 +6,16 @@ let width = window.innerWidth;
 let height = window.innerHeight;
 
 window.addEventListener("resize",()=>{
-    width=window.innerWidth;
-    height= window.innerHeight;
+    width=window.innerWidth-3;
+    height= window.innerHeight-5;
 
     canvas.width=width;
     canvas.height=height;
     console.log(event);
 })
 
-canvas.width = width ;
-canvas.height = height ;
+canvas.width = width-3;
+canvas.height = height-5;
 
 
 const circles=[];
