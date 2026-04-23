@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link href="../task17/prism.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet">
   <style>
     h3 {
       color: #fff;
@@ -13,15 +14,11 @@
   </style>
 </head>
 
-<body style="background-color: #2e2e2e;">
-  <h3>JS</h3>
-  <pre><code id="highlightedJs" class="language-js"></code></pre>
-
-  <h3>CSS</h3>
-  <pre><code id="highlightedCss" class="language-css"></code></pre>
+<body>
+  <pre class="line-numbers"><code id="highlighted" class="language-js"></code></pre>
 
   <script src="../task17/prism.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
   <script>
     window.addEventListener("load", event => {
       window.parent.postMessage({
@@ -30,16 +27,22 @@
     })
 
     window.addEventListener("message", (e) => {
+      console.log(e);
       if (e.data.type === "LOAD_CODE") {
 
-        let jsCode = e.data.js;
-        let cssCode = e.data.css;
+        let Code = e.data.code;
+        let lang = e.data.lang;
 
-        const highlightedJs = Prism.highlight(jsCode, Prism.languages.javascript, 'js');
-        const highlightedCss = Prism.highlight(cssCode, Prism.languages.css, 'css');
+        const codeElement = document.getElementById("highlighted");
+        const preElement = codeElement.parentElement;
 
-        document.getElementById("highlightedJs").innerHTML = highlightedJs;
-        document.getElementById("highlightedCss").innerHTML = highlightedCss;
+        codeElement.className = `language-${lang}`;
+        preElement.className = `line-numbers language-${lang}`;
+        
+        codeElement.textContent=Code;
+
+        console.log(Prism.plugins.lineNumbers);
+        Prism.highlightElement(codeElement);
       }
     })
   </script>
