@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post Messaging</title>
+</head>
+
+<body>
+  <iframe src="frame.html" width="100%" height="550"></iframe>
+  <script>
+    const iframe = document.querySelector('iframe');
+    iframe.addEventListener('load', () => {
+      iframe.contentWindow.postMessage({
+        type: "LOAD_CODE",
+        code: `<h3>JS</h3> 
+  <pre><code class="language-js">
+        &lt;p style="color="red"&gt;
+            Hello World!
+        &lt;/p&gt;
+
+    </code></pre>
+
+  <h3>CSS</h3>
+  <pre><code class="language-css">
+        p {
+            color: red;
+        }
+    </code></pre>`}, "*");
+    });
+  </script>
+</body>
+
+</html>
