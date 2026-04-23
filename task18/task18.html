@@ -11,23 +11,19 @@
   <iframe src="frame.html" width="100%" height="550"></iframe>
   <script>
     const iframe = document.querySelector('iframe');
-    iframe.addEventListener('load', () => {
-      iframe.contentWindow.postMessage({
-        type: "LOAD_CODE",
-        code: `<h3>JS</h3> 
-  <pre><code class="language-js">
-        &lt;p style="color="red"&gt;
-            Hello World!
-        &lt;/p&gt;
 
-    </code></pre>
-
-  <h3>CSS</h3>
-  <pre><code class="language-css">
-        p {
+    window.addEventListener('message', (e) => {
+      if (e.data.type === "ready") {
+        iframe.contentWindow.postMessage({
+          type: "LOAD_CODE",
+          js: `function hello() {
+            console.log("Hello, World!");
+          }`,
+          css: `p {
             color: red;
-        }
-    </code></pre>`}, "*");
+          }`
+        }, "*");
+      }
     });
   </script>
 </body>

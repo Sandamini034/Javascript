@@ -7,21 +7,39 @@
   <title>Document</title>
   <link href="../task17/prism.css" rel="stylesheet">
   <style>
-    h3{
-      color:#fff;
+    h3 {
+      color: #fff;
     }
   </style>
 </head>
 
 <body style="background-color: #2e2e2e;">
+  <h3>JS</h3>
+  <pre><code id="highlightedJs" class="language-js"></code></pre>
+
+  <h3>CSS</h3>
+  <pre><code id="highlightedCss" class="language-css"></code></pre>
+
   <script src="../task17/prism.js"></script>
+
   <script>
-    window.addEventListener("message", event => {
-      console.log(event);
-      console.log("Data received from parent window:", event.data);
-      if (event.data.type === "LOAD_CODE") {
-        document.body.innerHTML = event.data.code;
-        Prism.highlightAll();
+    window.addEventListener("load", event => {
+      window.parent.postMessage({
+        type: "ready"
+      }, "*");
+    })
+
+    window.addEventListener("message", (e) => {
+      if (e.data.type === "LOAD_CODE") {
+
+        let jsCode = e.data.js;
+        let cssCode = e.data.css;
+
+        const highlightedJs = Prism.highlight(jsCode, Prism.languages.javascript, 'js');
+        const highlightedCss = Prism.highlight(cssCode, Prism.languages.css, 'css');
+
+        document.getElementById("highlightedJs").innerHTML = highlightedJs;
+        document.getElementById("highlightedCss").innerHTML = highlightedCss;
       }
     })
   </script>
