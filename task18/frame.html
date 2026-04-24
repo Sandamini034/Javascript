@@ -30,7 +30,7 @@
       console.log(e);
       if (e.data.type === "LOAD_CODE") {
 
-        let Code = e.data.code;
+        let code = e.data.code;
         let lang = e.data.lang;
 
         const codeElement = document.getElementById("highlighted");
@@ -39,7 +39,7 @@
         codeElement.className = `language-${lang}`;
         preElement.className = `line-numbers language-${lang}`;
         
-        codeElement.textContent=Code;
+        codeElement.textContent=code;
 
         console.log(Prism.plugins.lineNumbers);
         Prism.highlightElement(codeElement);
